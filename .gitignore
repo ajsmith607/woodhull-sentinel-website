@@ -1,3 +1,5 @@
 .envrc
 .nvim-last
 data
+node_modules
+src/search-index.json

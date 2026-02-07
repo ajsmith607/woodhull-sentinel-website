@@ -88,6 +88,27 @@ General-purpose image derivative generator. Produces one derivative type per inv
 
 Thumbnails have been generated for all 3,144 pages (109 MB total). See `plans/20260207-generate-images.md` for full details and WEBP compression findings.
 
+### `build/generate-search-index.js`
+
+Node.js script that reads all OCR text files, builds a FlexSearch Document index, and exports it as a single JSON file for client-side search.
+
+```bash
+node build/generate-search-index.js
+```
+
+**Output:** `src/search-index.json` (~75 MB, 3,144 documents indexed)
+
+The exported index contains all FlexSearch key/data segments in a single file. Client-side code reconstructs the index by calling `index.import(key, value)` for each key. The FlexSearch config is embedded in the output file under the `config` field.
+
+**Dependencies:** `flexsearch` (installed via `npm install`)
+
+**NPM scripts:**
+```bash
+npm run build:search   # Just rebuild search index
+npm run build          # Search index + Eleventy site
+npm run dev            # Search index + Eleventy dev server
+```
+
 ## DO NOT
 
 - DO NOT edit original jpg image files
@@ -95,7 +116,7 @@ Thumbnails have been generated for all 3,144 pages (109 MB total). See `plans/20
 
 ---
 
-**Document Version:** 2.1
+**Document Version:** 2.2
 **Last Updated:** 2026-02-07
-**Architecture:** Simplified JAMStack (No Build Tools)
-**Status:** Ready for Implementation
+**Architecture:** JAMStack (Eleventy)
+**Status:** Build scripts implemented, site UI pending

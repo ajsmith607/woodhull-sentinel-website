@@ -1,0 +1,15 @@
+{
+  "name": "woodhull-sentinel-website",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Woodhull Sentinel historical newspaper archive",
+  "scripts": {
+    "build:search": "node build/generate-search-index.js",
+    "build:site": "eleventy",
+    "build": "npm run build:search && npm run build:site",
+    "dev": "npm run build:search && eleventy --serve"
+  },
+  "dependencies": {
+    "flexsearch": "^0.7.31"
+  }
+}
