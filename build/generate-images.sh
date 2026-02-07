@@ -2,19 +2,19 @@
 
 #==============================================================================
 # Image Derivatives Generation Script
-# Generates WEBP versions and thumbnails from original JPEG scans
+# Generates image derivatives (e.g., thumbnails, format conversions) from
+# original JPEG scans. Run once per derivative type with desired settings.
 #==============================================================================
 
-# Configuration
+# Source directory (fixed)
 SOURCE_DIR="data/JPEGs"
-WEBP_DIR="data/WEBPs"
-THUMB_DIR="data/THUMBs"
 LOG_FILE="build/logs/image-generation-errors.log"
 
-# Image settings
-WEBP_QUALITY=90          # High quality, lossy compression
-THUMB_WIDTH=200          # Thumbnail width in pixels
-THUMB_QUALITY=70         # Thumbnail JPEG quality
+# Derivative settings (set via flags)
+OUTPUT_DIR=""
+OUTPUT_FORMAT=""
+OUTPUT_QUALITY=""
+OUTPUT_WIDTH=""
 
 # Default flags
 FORCE=false
@@ -41,28 +41,41 @@ fi
 #==============================================================================
 
 show_help() {
-  cat << EOF
+  cat << 'EOF'
 Image Derivatives Generation Script
 
-USAGE:
-  ./build/generate-images.sh [OPTIONS]
+Generates a single type of image derivative from source JPEGs.
+Run once per derivative type with the desired settings.
 
-OPTIONS:
+USAGE:
+  ./build/generate-images.sh --output DIR --format FMT [OPTIONS]
+
+REQUIRED:
+  -o, --output DIR     Output directory (e.g., data/THUMBs, data/WEBPs)
+  -F, --format FMT     Output format: jpg, webp, png
+
+IMAGE OPTIONS:
+  -q, --quality NUM    Output quality 1-100 (default: 80)
+  -w, --width NUM      Resize to width in pixels (omit to keep original size)
+
+FLAGS:
   -f, --force          Regenerate all images (ignore existing files)
   -d, --dry-run        Preview operations without generating files
   -v, --verbose        Show detailed progress for each file
   -h, --help           Show this help message
 
 EXAMPLES:
-  ./build/generate-images.sh                    # Normal run (skip existing)
-  ./build/generate-images.sh --force            # Regenerate everything
-  ./build/generate-images.sh --dry-run          # Preview without processing
-  ./build/generate-images.sh --verbose          # Show detailed progress
+  # Generate 200px thumbnails
+  ./build/generate-images.sh -o data/THUMBs -F jpg -w 200 -q 70
 
-OUTPUT:
-  - WEBP files: $WEBP_DIR (${WEBP_QUALITY}% quality, lossy)
-  - Thumbnails: $THUMB_DIR (${THUMB_WIDTH}px wide, ${THUMB_QUALITY}% quality)
-  - Error log: $LOG_FILE
+  # Generate full-size WEBPs
+  ./build/generate-images.sh -o data/WEBPs -F webp -q 90
+
+  # Dry run to preview
+  ./build/generate-images.sh -o data/THUMBs -F jpg -w 200 -q 70 --dry-run
+
+  # Force regenerate thumbnails
+  ./build/generate-images.sh -o data/THUMBs -F jpg -w 200 -q 70 --force
 EOF
 }
 
@@ -72,6 +85,22 @@ EOF
 
 while [[ $# -gt 0 ]]; do
   case $1 in
+    -o|--output)
+      OUTPUT_DIR="$2"
+      shift 2
+      ;;
+    -F|--format)
+      OUTPUT_FORMAT="$2"
+      shift 2
+      ;;
+    -q|--quality)
+      OUTPUT_QUALITY="$2"
+      shift 2
+      ;;
+    -w|--width)
+      OUTPUT_WIDTH="$2"
+      shift 2
+      ;;
     -f|--force)
       FORCE=true
       shift
@@ -97,6 +126,50 @@ while [[ $# -gt 0 ]]; do
 done
 
 #==============================================================================
+# Validate required arguments
+#==============================================================================
+
+if [[ -z "$OUTPUT_DIR" ]]; then
+  echo -e "${RED}Error: --output is required${NC}"
+  echo ""
+  show_help
+  exit 1
+fi
+
+if [[ -z "$OUTPUT_FORMAT" ]]; then
+  echo -e "${RED}Error: --format is required${NC}"
+  echo ""
+  show_help
+  exit 1
+fi
+
+# Validate format
+case "$OUTPUT_FORMAT" in
+  jpg|webp|png) ;;
+  *)
+    echo -e "${RED}Error: unsupported format '$OUTPUT_FORMAT' (use jpg, webp, or png)${NC}"
+    exit 1
+    ;;
+esac
+
+# Default quality
+if [[ -z "$OUTPUT_QUALITY" ]]; then
+  OUTPUT_QUALITY=80
+fi
+
+# Validate quality range
+if [[ "$OUTPUT_QUALITY" -lt 1 ]] || [[ "$OUTPUT_QUALITY" -gt 100 ]]; then
+  echo -e "${RED}Error: quality must be between 1 and 100${NC}"
+  exit 1
+fi
+
+# Validate width if provided
+if [[ -n "$OUTPUT_WIDTH" ]] && [[ "$OUTPUT_WIDTH" -lt 1 ]]; then
+  echo -e "${RED}Error: width must be a positive number${NC}"
+  exit 1
+fi
+
+#==============================================================================
 # Initialization
 #==============================================================================
 
@@ -112,11 +185,13 @@ if [[ -z "$CONVERT_CMD" ]]; then
   exit 1
 fi
 
-# Check for WEBP support
-if ! $CONVERT_CMD -list format | grep -qi WEBP; then
-  echo -e "${RED}Error: ImageMagick does not have WEBP support${NC}"
-  echo "Install WEBP support: sudo apt-get install imagemagick webp"
-  exit 1
+# Check for WEBP support if needed
+if [[ "$OUTPUT_FORMAT" == "webp" ]]; then
+  if ! $CONVERT_CMD -list format | grep -qi WEBP; then
+    echo -e "${RED}Error: ImageMagick does not have WEBP support${NC}"
+    echo "Install WEBP support: sudo apt-get install imagemagick webp"
+    exit 1
+  fi
 fi
 
 # Verify source directory exists
@@ -126,19 +201,26 @@ if [[ ! -d "$SOURCE_DIR" ]]; then
   exit 1
 fi
 
-# Create output directories and log file (skip in dry-run mode except log dir)
+# Create output directories and log file (skip output dir in dry-run mode)
 mkdir -p "$(dirname "$LOG_FILE")"
 > "$LOG_FILE"
 if [[ "$DRY_RUN" == false ]]; then
-  mkdir -p "$WEBP_DIR"
-  mkdir -p "$THUMB_DIR"
+  mkdir -p "$OUTPUT_DIR"
+fi
+
+# Build description of resize setting
+RESIZE_DESC="original size"
+if [[ -n "$OUTPUT_WIDTH" ]]; then
+  RESIZE_DESC="${OUTPUT_WIDTH}px wide"
 fi
 
 # Display configuration
 echo "Configuration:"
 echo "  Source:       $SOURCE_DIR"
-echo "  WEBP output:  $WEBP_DIR (quality: ${WEBP_QUALITY}%)"
-echo "  Thumb output: $THUMB_DIR (${THUMB_WIDTH}px wide, quality: ${THUMB_QUALITY}%)"
+echo "  Output:       $OUTPUT_DIR"
+echo "  Format:       $OUTPUT_FORMAT"
+echo "  Quality:      ${OUTPUT_QUALITY}%"
+echo "  Resize:       $RESIZE_DESC"
 echo "  Force:        $FORCE"
 echo "  Dry run:      $DRY_RUN"
 echo "  Verbose:      $VERBOSE"
@@ -176,76 +258,54 @@ process_image() {
   local file_name
   file_name="$(basename "$rel_path" .jpg)"
 
-  # Output paths
-  local webp_dir="$WEBP_DIR/$dir_name"
-  local thumb_dir="$THUMB_DIR/$dir_name"
-  local webp_path="$webp_dir/${file_name}.webp"
-  local thumb_path="$thumb_dir/${file_name}.jpg"
+  # Output path
+  local out_dir="$OUTPUT_DIR/$dir_name"
+  local out_path="$out_dir/${file_name}.${OUTPUT_FORMAT}"
 
-  # Create subdirectories if needed (skip in dry-run mode)
+  # Create subdirectory if needed (skip in dry-run mode)
   if [[ "$DRY_RUN" == false ]]; then
-    mkdir -p "$webp_dir"
-    mkdir -p "$thumb_dir"
+    mkdir -p "$out_dir"
   fi
 
-  # Track operations
-  local webp_status="SKIP"
-  local thumb_status="SKIP"
+  # Track operation
+  local status="SKIP"
 
-  # Process WEBP
-  if [[ "$FORCE" == true ]] || [[ ! -f "$webp_path" ]]; then
+  if [[ "$FORCE" == true ]] || [[ ! -f "$out_path" ]]; then
     if [[ "$DRY_RUN" == true ]]; then
-      webp_status="DRY-RUN"
+      status="DRY-RUN"
       if [[ "$VERBOSE" == true ]]; then
-        echo "  [dry-run] Would create WEBP: $webp_path" >&2
+        echo "  [dry-run] Would create: $out_path" >&2
       fi
     else
-      if $CONVERT_CMD "$jpeg_path" -quality "$WEBP_QUALITY" "$webp_path" 2>> "$LOG_FILE"; then
-        webp_status="CREATED"
+      # Build convert command arguments
+      local convert_args=()
+      convert_args+=("$jpeg_path")
+      if [[ -n "$OUTPUT_WIDTH" ]]; then
+        convert_args+=(-resize "${OUTPUT_WIDTH}x")
+      fi
+      convert_args+=(-quality "$OUTPUT_QUALITY")
+      convert_args+=("$out_path")
+
+      if $CONVERT_CMD "${convert_args[@]}" 2>> "$LOG_FILE"; then
+        status="CREATED"
         if [[ "$VERBOSE" == true ]]; then
-          local webp_size
-          webp_size=$(stat -c%s "$webp_path" 2>/dev/null || echo "?")
-          echo "  WEBP created: $webp_path ($webp_size bytes)" >&2
+          local out_size
+          out_size=$(stat -c%s "$out_path" 2>/dev/null || echo "?")
+          echo "  Created: $out_path ($out_size bytes)" >&2
         fi
       else
-        webp_status="ERROR"
-        echo "[$(date '+%Y-%m-%d %H:%M:%S')] [ERROR] Failed to create WEBP: $webp_path (source: $jpeg_path)" >> "$LOG_FILE"
+        status="ERROR"
+        echo "[$(date '+%Y-%m-%d %H:%M:%S')] [ERROR] Failed to create: $out_path (source: $jpeg_path)" >> "$LOG_FILE"
       fi
     fi
   else
     if [[ "$VERBOSE" == true ]]; then
-      echo "  WEBP exists, skipping: $webp_path" >&2
-    fi
-  fi
-
-  # Process Thumbnail
-  if [[ "$FORCE" == true ]] || [[ ! -f "$thumb_path" ]]; then
-    if [[ "$DRY_RUN" == true ]]; then
-      thumb_status="DRY-RUN"
-      if [[ "$VERBOSE" == true ]]; then
-        echo "  [dry-run] Would create thumbnail: $thumb_path" >&2
-      fi
-    else
-      if $CONVERT_CMD "$jpeg_path" -resize "${THUMB_WIDTH}x" -quality "$THUMB_QUALITY" "$thumb_path" 2>> "$LOG_FILE"; then
-        thumb_status="CREATED"
-        if [[ "$VERBOSE" == true ]]; then
-          local thumb_size
-          thumb_size=$(stat -c%s "$thumb_path" 2>/dev/null || echo "?")
-          echo "  Thumb created: $thumb_path ($thumb_size bytes)" >&2
-        fi
-      else
-        thumb_status="ERROR"
-        echo "[$(date '+%Y-%m-%d %H:%M:%S')] [ERROR] Failed to create thumbnail: $thumb_path (source: $jpeg_path)" >> "$LOG_FILE"
-      fi
-    fi
-  else
-    if [[ "$VERBOSE" == true ]]; then
-      echo "  Thumb exists, skipping: $thumb_path" >&2
+      echo "  Exists, skipping: $out_path" >&2
     fi
   fi
 
   # Return status for counter parsing (stdout only)
-  echo "$webp_status|$thumb_status"
+  echo "$status"
 }
 
 #==============================================================================
@@ -256,12 +316,9 @@ process_image() {
 START_TIME=$(date +%s)
 
 # Counters
-webp_created=0
-webp_skipped=0
-webp_errors=0
-thumb_created=0
-thumb_skipped=0
-thumb_errors=0
+created=0
+skipped=0
+errors=0
 
 echo "Processing images sequentially..."
 echo ""
@@ -281,24 +338,14 @@ for jpeg_path in "${JPEG_FILES[@]}"; do
   fi
 
   # Process image and capture status from stdout
-  result=$(process_image "$jpeg_path")
-
-  # Parse result
-  IFS='|' read -r webp_status thumb_status <<< "$result"
+  status=$(process_image "$jpeg_path")
 
   # Update counters
-  case "$webp_status" in
-    CREATED)  webp_created=$((webp_created + 1)) ;;
-    DRY-RUN)  webp_created=$((webp_created + 1)) ;;
-    SKIP)     webp_skipped=$((webp_skipped + 1)) ;;
-    ERROR)    webp_errors=$((webp_errors + 1)) ;;
-  esac
-
-  case "$thumb_status" in
-    CREATED)  thumb_created=$((thumb_created + 1)) ;;
-    DRY-RUN)  thumb_created=$((thumb_created + 1)) ;;
-    SKIP)     thumb_skipped=$((thumb_skipped + 1)) ;;
-    ERROR)    thumb_errors=$((thumb_errors + 1)) ;;
+  case "$status" in
+    CREATED)  created=$((created + 1)) ;;
+    DRY-RUN)  created=$((created + 1)) ;;
+    SKIP)     skipped=$((skipped + 1)) ;;
+    ERROR)    errors=$((errors + 1)) ;;
   esac
 done
 
@@ -311,13 +358,11 @@ END_TIME=$(date +%s)
 ELAPSED=$((END_TIME - START_TIME))
 
 # Calculate disk usage
-WEBP_SIZE="N/A"
-THUMB_SIZE="N/A"
+OUTPUT_SIZE="N/A"
 if [[ "$DRY_RUN" == false ]]; then
   echo ""
   echo "Calculating disk usage..."
-  WEBP_SIZE=$(du -sh "$WEBP_DIR" 2>/dev/null | cut -f1)
-  THUMB_SIZE=$(du -sh "$THUMB_DIR" 2>/dev/null | cut -f1)
+  OUTPUT_SIZE=$(du -sh "$OUTPUT_DIR" 2>/dev/null | cut -f1)
 fi
 
 # Display summary
@@ -334,22 +379,15 @@ if [[ "$DRY_RUN" == true ]]; then
   echo ""
 fi
 
-echo "WEBP Files:"
-echo "  Created:    ${webp_created}"
-echo "  Skipped:    ${webp_skipped}"
-echo "  Errors:     ${webp_errors}"
-echo "  Total size: ${WEBP_SIZE}"
-echo ""
-
-echo "Thumbnail Files:"
-echo "  Created:    ${thumb_created}"
-echo "  Skipped:    ${thumb_skipped}"
-echo "  Errors:     ${thumb_errors}"
-echo "  Total size: ${THUMB_SIZE}"
+echo "Output: $OUTPUT_DIR (${OUTPUT_FORMAT}, ${OUTPUT_QUALITY}% quality, ${RESIZE_DESC})"
+echo "  Created:    ${created}"
+echo "  Skipped:    ${skipped}"
+echo "  Errors:     ${errors}"
+echo "  Total size: ${OUTPUT_SIZE}"
 echo ""
 
 # Report errors
-if [[ $webp_errors -gt 0 ]] || [[ $thumb_errors -gt 0 ]]; then
+if [[ $errors -gt 0 ]]; then
   echo -e "${RED}Errors occurred during processing${NC}"
   echo "Check error log: $LOG_FILE"
   echo ""
@@ -359,11 +397,10 @@ if [[ $webp_errors -gt 0 ]] || [[ $thumb_errors -gt 0 ]]; then
 fi
 
 # Final status
-TOTAL_OPERATIONS=$((webp_created + thumb_created))
-if [[ $TOTAL_OPERATIONS -gt 0 ]] && [[ "$DRY_RUN" == false ]]; then
-  echo -e "${GREEN}Successfully generated $TOTAL_OPERATIONS image derivatives${NC}"
+if [[ $created -gt 0 ]] && [[ "$DRY_RUN" == false ]]; then
+  echo -e "${GREEN}Successfully generated $created image derivatives${NC}"
 elif [[ "$DRY_RUN" == true ]]; then
-  echo -e "${YELLOW}Dry run complete - would generate $TOTAL_OPERATIONS derivatives${NC}"
+  echo -e "${YELLOW}Dry run complete - would generate $created derivatives${NC}"
 else
   echo -e "${YELLOW}All files already exist (use --force to regenerate)${NC}"
 fi
