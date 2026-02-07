@@ -30,16 +30,14 @@ This section describes the scope and organization of the images that make up the
 ### Directory Structure
 
 The actual newspaper collection files are located under the `data/` directory of the project root. Sub-directories are organized as follows:
-- `data/JPEGs`: Full-size scanned images in jpg format
-- `data/TXTs`: OCR text files
-- `data/WEBPs`: Full-size scanned images in webp format 
-- `data/THUMBs`: Thumbnail images in jpg format
+- `data/JPEGs`: Full-size scanned images in jpg format (source, read-only)
+- `data/TXTs`: OCR text files (source, read-only)
+- `data/THUMBs`: Thumbnail images in jpg format (generated, 200px wide, 70% quality)
 
 **File Pairing:**
 - Text and image files are paired by identical filenames in parallel directory structures
-  - `data/TXTs/issue-name/page-name.txt` 
+  - `data/TXTs/issue-name/page-name.txt`
   - `data/JPEGs/issue-name/page-name.jpg`
-  - `data/WEBPs/issue-name/page-name.webp`
   - `data/THUMBs/issue-name/page-name.jpg`
 
 ### Naming Conventions
@@ -74,14 +72,30 @@ The actual newspaper collection files are located under the `data/` directory of
 
 The full-size scanned images are 400DPI with 6500x9000 pixels as typical dimensions.
 
+## Build Scripts
+
+### `build/generate-images.sh`
+
+General-purpose image derivative generator. Produces one derivative type per invocation.
+
+```bash
+# Generate thumbnails (200px wide, 70% quality JPEG)
+./build/generate-images.sh -o data/THUMBs -F jpg -w 200 -q 70
+
+# Run with --help for all options
+./build/generate-images.sh --help
+```
+
+Thumbnails have been generated for all 3,144 pages (109 MB total). See `plans/20260207-generate-images.md` for full details and WEBP compression findings.
+
 ## DO NOT
- 
+
 - DO NOT edit original jpg image files
 - DO NOT edit original OCR text files
 
 ---
 
-**Document Version:** 2.0  
-**Last Updated:** 2026-01-15  
-**Architecture:** Simplified JAMStack (No Build Tools)  
+**Document Version:** 2.1
+**Last Updated:** 2026-02-07
+**Architecture:** Simplified JAMStack (No Build Tools)
 **Status:** Ready for Implementation
