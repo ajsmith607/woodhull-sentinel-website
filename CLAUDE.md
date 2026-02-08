@@ -95,7 +95,7 @@ Node.js script that reads all OCR text files, builds a FlexSearch Document index
 node build/generate-search-index.js
 ```
 
-**Output:** `src/search-index.json` (~75 MB, 3,144 documents indexed)
+**Output:** `src/search-index.json` (~24 MB, 3,144 documents indexed)
 
 The exported index contains all FlexSearch key/data segments in a single file. Client-side code reconstructs the index by calling `index.import(key, value)` for each key. The FlexSearch config is embedded in the output file under the `config` field.
 
@@ -177,8 +177,8 @@ npm run dev
 
 ### Limitations
 
-- **Search requires HTTP** — `fetch()` for the 75 MB search index does not work via `file://` protocol. All other pages work via file://.
-- **Search index size** — `search-index.json` is ~75 MB. Shows a loading indicator while parsing. Future optimization opportunity.
+- **Search requires HTTP** — `fetch()` for the ~24 MB search index does not work via `file://` protocol. All other pages work via file://.
+- **Search index size** — `search-index.json` is ~24 MB (uses `strict` tokenization — whole-word matching only, no prefix search). Shows a loading indicator while parsing.
 
 ## DO NOT
 

@@ -13,12 +13,8 @@ const CONFIG = {
   outputFile: './src/search-index.json',
 
   flexsearch: {
-    tokenize: 'forward',
-    context: {
-      resolution: 9,
-      depth: 3,
-      bidirectional: true
-    },
+    tokenize: 'strict',
+    resolution: 3,
     document: {
       id: 'id',
       index: ['content', 'newspaper'],
