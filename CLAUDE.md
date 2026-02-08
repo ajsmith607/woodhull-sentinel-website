@@ -102,11 +102,26 @@ The exported index contains all FlexSearch key/data segments in a single file. C
 
 **Dependencies:** `flexsearch` (installed via `npm install`)
 
+### `build/generate-metadata.js`
+
+Node.js script that scans `data/TXTs/` directory structure and generates structured collection metadata for the Eleventy site (browse page, detail page pagination, navigation links, stats).
+
+```bash
+node build/generate-metadata.js
+```
+
+**Output:** `src/issues-metadata.json` (~2.6 MB, 397 issues, 3,144 pages)
+
+Contains `years` (grouped by year with issue listings), `allPages` (flat array with prev/next navigation links for Eleventy pagination), and aggregate stats (`totalIssues`, `totalPages`, `dateRange`). All image paths are site-root-relative (`data/THUMBs/...`). See `plans/20260208-generate-metadata.md` for full schema and details.
+
+**Dependencies:** None (Node.js built-ins only)
+
 **NPM scripts:**
 ```bash
+npm run build:metadata # Just rebuild metadata
 npm run build:search   # Just rebuild search index
-npm run build          # Search index + Eleventy site
-npm run dev            # Search index + Eleventy dev server
+npm run build          # Metadata + search index + Eleventy site
+npm run dev            # Metadata + search index + Eleventy dev server
 ```
 
 ## DO NOT
@@ -116,7 +131,7 @@ npm run dev            # Search index + Eleventy dev server
 
 ---
 
-**Document Version:** 2.2
-**Last Updated:** 2026-02-07
+**Document Version:** 2.3
+**Last Updated:** 2026-02-08
 **Architecture:** JAMStack (Eleventy)
 **Status:** Build scripts implemented, site UI pending

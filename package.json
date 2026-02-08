@@ -4,10 +4,11 @@
   "private": true,
   "description": "Woodhull Sentinel historical newspaper archive",
   "scripts": {
+    "build:metadata": "node build/generate-metadata.js",
     "build:search": "node build/generate-search-index.js",
     "build:site": "eleventy",
-    "build": "npm run build:search && npm run build:site",
-    "dev": "npm run build:search && eleventy --serve"
+    "build": "npm run build:metadata && npm run build:search && npm run build:site",
+    "dev": "npm run build:metadata && npm run build:search && eleventy --serve"
   },
   "dependencies": {
     "flexsearch": "^0.7.31"
