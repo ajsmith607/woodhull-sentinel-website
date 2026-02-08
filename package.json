@@ -6,11 +6,15 @@
   "scripts": {
     "build:metadata": "node build/generate-metadata.js",
     "build:search": "node build/generate-search-index.js",
-    "build:site": "eleventy",
+    "build:site": "npx @11ty/eleventy",
     "build": "npm run build:metadata && npm run build:search && npm run build:site",
-    "dev": "npm run build:metadata && npm run build:search && eleventy --serve"
+    "dev": "npm run build:metadata && npm run build:search && npx @11ty/eleventy --serve"
   },
   "dependencies": {
     "flexsearch": "^0.7.31"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^3.0.0",
+    "@panzoom/panzoom": "^4.6.1"
   }
 }

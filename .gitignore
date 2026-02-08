@@ -4,3 +4,4 @@ data
 node_modules
 src/search-index.json
 src/issues-metadata.json
+_site

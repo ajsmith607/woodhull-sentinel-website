@@ -1,0 +1,111 @@
+/* Grid layouts for browse and search results */
+.issues-grid,
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 2rem;
+  margin: 2rem 0;
+}
+
+/* Card styling */
+.issue-card {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem;
+  text-align: center;
+}
+
+.issue-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+/* Search form */
+.search-form {
+  display: flex;
+  gap: 0.5rem;
+  max-width: 600px;
+  margin: 2rem auto;
+}
+
+.search-form input {
+  flex: 1;
+}
+
+/* Image viewer */
+#panzoom-container {
+  max-width: 100%;
+  max-height: 80vh;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  cursor: grab;
+}
+
+#panzoom-container:active {
+  cursor: grabbing;
+}
+
+#newspaper-image {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+.viewer-controls {
+  display: flex;
+  gap: 1rem;
+  margin: 1rem 0;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* Navigation */
+.page-navigation {
+  margin: 2rem 0;
+}
+
+.page-nav,
+.issue-nav {
+  display: flex;
+  justify-content: space-between;
+  margin: 1rem 0;
+}
+
+.nav-btn {
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  text-decoration: none;
+}
+
+.nav-btn.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Stats section on home page */
+.stats {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+  margin: 3rem 0;
+  text-align: center;
+}
+
+.stats strong {
+  display: block;
+  font-size: 2rem;
+}
+
+/* Accessibility */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}

@@ -1,0 +1,65 @@
+---
+layout: layouts/base.njk
+pagination:
+  data: metadata.allPages
+  size: 1
+  alias: item
+permalink: "pages/{{ item.filename }}/"
+eleventyComputed:
+  title: "{{ item.newspaper }} - {{ item.dateDisplay }} - Page {{ item.pageNumber }}"
+---
+
+<article class="detail-page">
+  <header>
+    <h1>{{ item.newspaper }}</h1>
+    <p><time datetime="{{ item.date }}">{{ item.dateDisplay }}</time> &mdash; Page {{ item.pageNumber }}</p>
+  </header>
+
+  <div class="image-viewer">
+    <div id="panzoom-container">
+      <img id="newspaper-image"
+           src="{{ item.jpg | rootRelative }}"
+           alt="{{ item.newspaper }} - {{ item.dateDisplay }} - Page {{ item.pageNumber }}">
+    </div>
+
+    <div class="viewer-controls">
+      <button id="zoom-in">+ Zoom In</button>
+      <button id="zoom-out">- Zoom Out</button>
+      <button id="reset-zoom">Reset</button>
+      <a href="{{ item.jpg | rootRelative }}" download>Download Full Image</a>
+    </div>
+  </div>
+
+  <nav class="page-navigation">
+    <div class="page-nav">
+      {% if item.prevPage %}
+        <a href="/pages/{{ item.prevPage }}/" class="nav-btn">&larr; Previous Page</a>
+      {% else %}
+        <span class="nav-btn disabled">&larr; Previous Page</span>
+      {% endif %}
+
+      {% if item.nextPage %}
+        <a href="/pages/{{ item.nextPage }}/" class="nav-btn">Next Page &rarr;</a>
+      {% else %}
+        <span class="nav-btn disabled">Next Page &rarr;</span>
+      {% endif %}
+    </div>
+
+    <div class="issue-nav">
+      {% if item.prevIssue %}
+        <a href="/pages/{{ item.prevIssue }}/" class="nav-btn">&larr; Previous Issue</a>
+      {% else %}
+        <span class="nav-btn disabled">&larr; Previous Issue</span>
+      {% endif %}
+
+      {% if item.nextIssue %}
+        <a href="/pages/{{ item.nextIssue }}/" class="nav-btn">Next Issue &rarr;</a>
+      {% else %}
+        <span class="nav-btn disabled">Next Issue &rarr;</span>
+      {% endif %}
+    </div>
+  </nav>
+</article>
+
+<script src="/assets/js/vendor/panzoom.min.js"></script>
+<script src="/assets/js/viewer.js"></script>

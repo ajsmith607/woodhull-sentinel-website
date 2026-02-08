@@ -1,0 +1,17 @@
+---
+layout: layouts/base.njk
+title: Search
+---
+
+<h1>Search</h1>
+
+{% include "components/search-form.njk" %}
+
+<div id="search-status">
+  <p>Enter a search term above to search {{ metadata.totalPages }} newspaper pages.</p>
+</div>
+
+<div id="results-grid" class="results-grid"></div>
+
+<script src="/assets/js/vendor/flexsearch.bundle.min.js"></script>
+<script src="/assets/js/search.js"></script>
