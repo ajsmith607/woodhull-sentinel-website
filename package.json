@@ -8,7 +8,7 @@
     "build:search": "node build/generate-search-index.js",
     "build:site": "npx @11ty/eleventy",
     "build": "npm run build:metadata && npm run build:search && npm run build:site",
-    "dev": "npm run build:metadata && npm run build:search && npx @11ty/eleventy --serve"
+    "dev": "npx @11ty/eleventy --serve"
   },
   "dependencies": {
     "flexsearch": "^0.7.31"

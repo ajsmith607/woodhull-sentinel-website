@@ -121,7 +121,7 @@ npm run build:metadata # Just rebuild metadata
 npm run build:search   # Just rebuild search index
 npm run build:site     # Just rebuild Eleventy site
 npm run build          # Metadata + search index + Eleventy site
-npm run dev            # Metadata + search index + Eleventy dev server
+npm run dev            # Eleventy dev server with live reload
 ```
 
 ## Eleventy Site
