@@ -11,10 +11,9 @@ A lightweight, static JAMStack website for browsing and searching a collection o
 - Fast, responsive interface
 
 **Components used:**
-  - JQuery (if needed)
-  - simple.css (start with bare-bones "classless" approach)
-  - FlexSearch
-  - Panzoom
+  - simple.css (classless CSS framework, vendored locally)
+  - FlexSearch (client-side full-text search, vendored locally)
+  - Panzoom (image pan/zoom viewer, vendored locally)
 
 ## Data Specifications
 
@@ -120,9 +119,66 @@ Contains `years` (grouped by year with issue listings), `allPages` (flat array w
 ```bash
 npm run build:metadata # Just rebuild metadata
 npm run build:search   # Just rebuild search index
+npm run build:site     # Just rebuild Eleventy site
 npm run build          # Metadata + search index + Eleventy site
 npm run dev            # Metadata + search index + Eleventy dev server
 ```
+
+## Eleventy Site
+
+### Configuration
+
+`.eleventy.js` — Eleventy config (CommonJS). Key features:
+- Loads `src/issues-metadata.json` as `metadata` global data
+- Passthrough copies vendor JS/CSS from `node_modules/` to `assets/js/vendor/` and `assets/css/`
+- `htmlTransformer.addUrlTransform` converts root-relative URLs to depth-correct relative URLs at build time (enables file:// protocol support)
+- `eleventy.after` event creates `_site/data` symlink to `../data` (avoids copying 31 GB)
+- Custom filters: `sortedYearsDesc` (years object to descending array), `rootRelative` (prepends `/` to bare data paths)
+
+### Site Structure
+
+Templates use root-relative paths (`/browse/`, `/assets/css/custom.css`) — the URL transform handles depth automatically.
+
+```
+src/
+├── _includes/
+│   ├── layouts/
+│   │   └── base.njk          # HTML boilerplate, loads CSS
+│   └── components/
+│       ├── header.njk        # Site nav
+│       ├── footer.njk        # Site footer
+│       └── search-form.njk   # Reusable search form
+├── assets/
+│   ├── css/
+│   │   ├── simple.min.css    # Vendored simple.css
+│   │   └── custom.css        # Minimal overrides (grids, cards, viewer)
+│   └── js/
+│       ├── search.js         # FlexSearch client-side integration
+│       └── viewer.js         # Panzoom initialization
+├── index.njk                 # Home page (stats, search, links)
+├── browse.njk                # Browse by year (descending, thumbnail grid)
+├── search.njk                # Search page (client-side via FlexSearch)
+├── detail.njk                # Detail page (paginated, 3,144 pages, Panzoom viewer)
+└── about.njk                 # About page
+```
+
+### Build Output
+
+`_site/` contains the built site (~3,148 HTML files). The `data` symlink inside `_site/` points to `../data` so image paths resolve without copying files.
+
+```bash
+# Build and serve
+npm run build:site
+python3 -m http.server 8080 -d _site
+
+# Or use Eleventy dev server with live reload
+npm run dev
+```
+
+### Limitations
+
+- **Search requires HTTP** — `fetch()` for the 75 MB search index does not work via `file://` protocol. All other pages work via file://.
+- **Search index size** — `search-index.json` is ~75 MB. Shows a loading indicator while parsing. Future optimization opportunity.
 
 ## DO NOT
 
@@ -131,7 +187,7 @@ npm run dev            # Metadata + search index + Eleventy dev server
 
 ---
 
-**Document Version:** 2.3
+**Document Version:** 3.0
 **Last Updated:** 2026-02-08
-**Architecture:** JAMStack (Eleventy)
-**Status:** Build scripts implemented, site UI pending
+**Architecture:** JAMStack (Eleventy 3.x, Nunjucks)
+**Status:** Site UI implemented
