@@ -76,26 +76,26 @@ body {
 h1 {
   font-family: var(--font-heading);
   font-weight: 300;
-  font-size: 3.052rem;
+  font-size: 3.815rem;
   margin-bottom: var(--rhythm);
 }
 
 h2 {
-  font-weight: 400;
+  font-weight: 300;
   font-size: 2.441rem;
   margin-top: calc(var(--rhythm) * 2);
   margin-bottom: var(--rhythm);
 }
 
 h3 {
-  font-weight: 400;
+  font-weight: 300;
   font-size: 1.953rem;
   margin-top: calc(var(--rhythm) * 2);
   margin-bottom: var(--rhythm);
 }
 
 h4 {
-  font-weight: 500;
+  font-weight: 300;
   font-size: 1.563rem;
   margin-top: var(--rhythm);
   margin-bottom: calc(var(--rhythm) * 0.5);
@@ -159,22 +159,12 @@ a:hover {
    --------------------------------------------------------------------------- */
 
 header {
+  text-align: center;
   padding: calc(var(--rhythm) * 2) 0;
-  border-bottom: 1px solid var(--pale-honey);
+  padding-bottom: calc(var(--rhythm) * 1) 0;
 }
 
-header nav {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: var(--rhythm);
-}
-
-header nav a:first-child {
-  font-size: 1.25rem;
-}
-
-header nav ul {
+nav ul {
   display: flex;
   list-style: none;
   gap: var(--rhythm);
@@ -188,6 +178,7 @@ header nav ul {
 
 main {
   padding: calc(var(--rhythm) * 3) 0;
+  padding-top: calc(var(--rhythm) * 1) 0;
 }
 
 /* ---------------------------------------------------------------------------
@@ -218,7 +209,6 @@ table {
   width: 100%;
   border-collapse: collapse;
   margin: var(--rhythm) 0;
-  font-size: 0.95rem;
 }
 
 th {
@@ -230,6 +220,7 @@ th {
 
 td {
   padding: calc(var(--rhythm) * 0.5);
+  padding-left: 0;
   border-bottom: 1px solid var(--pale-honey);
 }
 
@@ -402,7 +393,7 @@ input[type="text"]:focus {
 }
 
 .issue-card time,
-.issue-card p {
+.issue-card small {
   font-size: 0.9rem;
   color: #666;
   margin: 0;
@@ -481,12 +472,18 @@ input[type="text"]:focus {
    Component: Stats (Home Page)
    --------------------------------------------------------------------------- */
 
+.subheader {
+  text-align: center;
+  margin: 0 0 calc(var(--rhythm) * 0.5) 0;
+}
 .stats {
   display: flex;
   justify-content: center;
   gap: calc(var(--rhythm) * 2);
-  margin: calc(var(--rhythm) * 2) 0;
+  padding-bottom: calc(var(--rhythm) * 1);
+  margin-bottom: calc(var(--rhythm) * 2);
   text-align: center;
+  border-bottom: 1px solid var(--pale-honey);
 }
 
 .stats strong {
@@ -497,7 +494,7 @@ input[type="text"]:focus {
 }
 
 .stats span {
-  font-size: 0.9rem;
+  font-size: 1rem;
   color: #666;
 }
 

@@ -1,0 +1,18 @@
+{% for item in metadata.years | sortedYearsAsc %}
+  {% set year = item[0] %}
+  {% set yearData = item[1] %}
+  <section>
+    <h3>{{ year }}</h3>
+    <table>
+      {% for issue in yearData.issues %}
+      <tr>
+        <td><time datetime="{{ issue.date }}">{{ issue.dateDisplay }}</time></td>
+        <td><a href="/pages/{{ issue.pages[0].filename }}/">
+               <strong>{{ issue.newspaper }}</strong>
+            </a>
+        </td>
+        </tr>
+      {% endfor %}
+    </table>
+  </section>
+{% endfor %}

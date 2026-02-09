@@ -38,6 +38,11 @@ module.exports = function(eleventyConfig) {
     return Object.entries(yearsObj).sort((a, b) => b[0].localeCompare(a[0]));
   });
 
+  // Convert years object to array of [year, data] sorted ascending
+  eleventyConfig.addFilter('sortedYearsAsc', function(yearsObj) {
+    return Object.entries(yearsObj).sort((a, b) => a[0].localeCompare(b[0]));
+  });
+
   // Prepend / to paths that don't start with / (for metadata paths like data/THUMBs/...)
   eleventyConfig.addFilter('rootRelative', function(urlPath) {
     if (!urlPath) return urlPath;

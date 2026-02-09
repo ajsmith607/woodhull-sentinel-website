@@ -7,9 +7,8 @@
   <link rel="stylesheet" href="/assets/css/custom.css">
 </head>
 <body>
+  {% include "components/header.njk" %}
   <div class="container">
-    {% include "components/header.njk" %}
-
     <main>
       {{ content | safe }}
     </main>

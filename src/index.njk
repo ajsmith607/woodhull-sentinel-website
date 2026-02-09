@@ -4,28 +4,8 @@ title: Home
 ---
 
 <section>
-  <h1>Historical Newspaper Archive</h1>
-  <p>Search and browse {{ metadata.totalPages }} pages from {{ metadata.totalIssues }} newspaper issues ({{ metadata.dateRange }}).</p>
-
+  {% include "components/stats.njk" %}
   {% include "components/search-form.njk" %}
-
-  <nav>
-    <a href="/browse/">Browse by Year</a> |
-    <a href="/about/">About this Collection</a>
-  </nav>
+  {% include "components/browse-list.njk" %}
 </section>
 
-<section class="stats">
-  <div>
-    <strong>{{ metadata.totalIssues }}</strong>
-    <span>Issues</span>
-  </div>
-  <div>
-    <strong>{{ metadata.totalPages }}</strong>
-    <span>Pages</span>
-  </div>
-  <div>
-    <strong>{{ metadata.dateRange }}</strong>
-    <span>Date Range</span>
-  </div>
-</section>

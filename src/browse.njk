@@ -7,25 +7,5 @@ title: Browse Archive
 
 {% include "components/search-form.njk" %}
 
-{% for item in metadata.years | sortedYearsDesc %}
-  {% set year = item[0] %}
-  {% set yearData = item[1] %}
-  <section>
-    <h2>{{ year }} <small>({{ yearData.totalPages }} pages)</small></h2>
+{% include "components/browse-list.njk" %}
 
-    <div class="issues-grid">
-      {% for issue in yearData.issues %}
-      <article class="issue-card">
-        <a href="/pages/{{ issue.pages[0].filename }}/">
-          <img src="{{ issue.pages[0].thumbnail | rootRelative }}"
-               alt="{{ issue.newspaper }} - {{ issue.dateDisplay }}"
-               loading="lazy" width="200">
-        </a>
-        <h3>{{ issue.newspaper }}</h3>
-        <time datetime="{{ issue.date }}">{{ issue.dateDisplay }}</time>
-        <p>{{ issue.pageCount }} pages</p>
-      </article>
-      {% endfor %}
-    </div>
-  </section>
-{% endfor %}
