@@ -1,44 +1,422 @@
-/* Grid layouts for browse and search results */
-.issues-grid,
-.results-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 2rem;
-  margin: 2rem 0;
+/* ==========================================================================
+   Woodhull Sentinel Archive — Mid-Century Minimal Stylesheet
+   ========================================================================== */
+
+/* ---------------------------------------------------------------------------
+   Font
+   --------------------------------------------------------------------------- */
+
+@font-face {
+  font-family: 'Josefin Sans';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url('/assets/fonts/josefin-sans-300.ttf') format('truetype');
 }
 
-/* Card styling */
-.issue-card {
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 1rem;
-  text-align: center;
+/* ---------------------------------------------------------------------------
+   Custom Properties
+   --------------------------------------------------------------------------- */
+
+:root {
+  --ivory: #faf8f3;
+  --pale-honey: #e8dcc7;
+  --honey: #c4a574;
+  --olive: #6b6b47;
+  --deep-charcoal: #2d2d2d;
+
+  --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-heading: 'Josefin Sans', var(--font-body);
+
+  --rhythm: 1.7rem;
 }
 
-.issue-card img {
-  width: 100%;
+/* ---------------------------------------------------------------------------
+   Reset
+   --------------------------------------------------------------------------- */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+body {
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
   height: auto;
-  border-radius: 4px;
 }
 
-/* Search form */
+input, button, textarea, select {
+  font: inherit;
+}
+
+p, h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: break-word;
+}
+
+/* ---------------------------------------------------------------------------
+   Base Typography
+   --------------------------------------------------------------------------- */
+
+body {
+  font-family: var(--font-body);
+  font-size: 1.125rem;
+  color: var(--deep-charcoal);
+  background: var(--ivory);
+}
+
+h1 {
+  font-family: var(--font-heading);
+  font-weight: 300;
+  font-size: 3.052rem;
+  margin-bottom: var(--rhythm);
+}
+
+h2 {
+  font-weight: 400;
+  font-size: 2.441rem;
+  margin-top: calc(var(--rhythm) * 2);
+  margin-bottom: var(--rhythm);
+}
+
+h3 {
+  font-weight: 400;
+  font-size: 1.953rem;
+  margin-top: calc(var(--rhythm) * 2);
+  margin-bottom: var(--rhythm);
+}
+
+h4 {
+  font-weight: 500;
+  font-size: 1.563rem;
+  margin-top: var(--rhythm);
+  margin-bottom: calc(var(--rhythm) * 0.5);
+}
+
+h5 {
+  font-weight: 500;
+  font-size: 1.25rem;
+  margin-top: var(--rhythm);
+  margin-bottom: calc(var(--rhythm) * 0.5);
+}
+
+h6 {
+  font-weight: 600;
+  font-size: 1rem;
+  margin-top: var(--rhythm);
+  margin-bottom: calc(var(--rhythm) * 0.5);
+}
+
+p {
+  margin-bottom: var(--rhythm);
+}
+
+small {
+  font-size: 0.9rem;
+}
+
+/* ---------------------------------------------------------------------------
+   Links
+   --------------------------------------------------------------------------- */
+
+a {
+  color: var(--olive);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--deep-charcoal);
+  text-decoration: underline;
+}
+
+/* ---------------------------------------------------------------------------
+   Layout
+   --------------------------------------------------------------------------- */
+
+.container {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 0 var(--rhythm);
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding: 0 calc(var(--rhythm) * 2);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Header
+   --------------------------------------------------------------------------- */
+
+header {
+  padding: calc(var(--rhythm) * 2) 0;
+  border-bottom: 1px solid var(--pale-honey);
+}
+
+header nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--rhythm);
+}
+
+header nav a:first-child {
+  font-size: 1.25rem;
+}
+
+header nav ul {
+  display: flex;
+  list-style: none;
+  gap: var(--rhythm);
+  padding: 0;
+  margin: 0;
+}
+
+/* ---------------------------------------------------------------------------
+   Main
+   --------------------------------------------------------------------------- */
+
+main {
+  padding: calc(var(--rhythm) * 3) 0;
+}
+
+/* ---------------------------------------------------------------------------
+   Footer
+   --------------------------------------------------------------------------- */
+
+footer {
+  padding: calc(var(--rhythm) * 2) 0;
+  border-top: 1px solid var(--pale-honey);
+  font-size: 0.9rem;
+  color: #666;
+}
+
+/* ---------------------------------------------------------------------------
+   Images
+   --------------------------------------------------------------------------- */
+
+img {
+  margin: var(--rhythm) 0;
+  border: 1px solid var(--pale-honey);
+}
+
+/* ---------------------------------------------------------------------------
+   Tables
+   --------------------------------------------------------------------------- */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: var(--rhythm) 0;
+  font-size: 0.95rem;
+}
+
+th {
+  text-align: left;
+  font-weight: 500;
+  padding: calc(var(--rhythm) * 0.5);
+  border-bottom: 2px solid var(--olive);
+}
+
+td {
+  padding: calc(var(--rhythm) * 0.5);
+  border-bottom: 1px solid var(--pale-honey);
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+tbody tr:hover {
+  background: rgba(232, 220, 199, 0.3);
+}
+
+/* ---------------------------------------------------------------------------
+   Blockquotes
+   --------------------------------------------------------------------------- */
+
+blockquote {
+  margin: var(--rhythm) 0;
+  padding-left: var(--rhythm);
+  border-left: 3px solid var(--olive);
+  font-style: italic;
+  color: #555;
+}
+
+/* ---------------------------------------------------------------------------
+   Horizontal Rules
+   --------------------------------------------------------------------------- */
+
+hr {
+  border: none;
+  border-top: 1px solid var(--pale-honey);
+  margin: calc(var(--rhythm) * 2) 0;
+}
+
+/* ---------------------------------------------------------------------------
+   Lists
+   --------------------------------------------------------------------------- */
+
+ul, ol {
+  margin: var(--rhythm) 0;
+  padding-left: var(--rhythm);
+}
+
+li {
+  margin-bottom: calc(var(--rhythm) * 0.5);
+}
+
+li:last-child {
+  margin-bottom: 0;
+}
+
+/* ---------------------------------------------------------------------------
+   Code
+   --------------------------------------------------------------------------- */
+
+code {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.9em;
+  background: var(--pale-honey);
+  padding: 0.2em 0.4em;
+  border-radius: 2px;
+}
+
+pre {
+  background: var(--pale-honey);
+  padding: var(--rhythm);
+  margin: var(--rhythm) 0;
+  overflow-x: auto;
+  border-radius: 2px;
+}
+
+pre code {
+  background: none;
+  padding: 0;
+}
+
+/* ---------------------------------------------------------------------------
+   Focus States (Accessibility)
+   --------------------------------------------------------------------------- */
+
+a:focus,
+button:focus,
+input:focus,
+textarea:focus {
+  outline: 2px solid var(--olive);
+  outline-offset: 2px;
+}
+
+/* ---------------------------------------------------------------------------
+   Buttons
+   --------------------------------------------------------------------------- */
+
+button,
+.nav-btn {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--pale-honey);
+  border-radius: 2px;
+  background: var(--ivory);
+  color: var(--deep-charcoal);
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+button:hover,
+.nav-btn:hover {
+  border-color: var(--olive);
+  text-decoration: none;
+}
+
+/* ---------------------------------------------------------------------------
+   Forms
+   --------------------------------------------------------------------------- */
+
+input[type="search"],
+input[type="text"] {
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--pale-honey);
+  border-radius: 2px;
+  background: #fff;
+  font-size: 1rem;
+}
+
+input[type="search"]:focus,
+input[type="text"]:focus {
+  border-color: var(--olive);
+}
+
+/* ---------------------------------------------------------------------------
+   Component: Search Form
+   --------------------------------------------------------------------------- */
+
 .search-form {
   display: flex;
   gap: 0.5rem;
-  max-width: 600px;
-  margin: 2rem auto;
+  max-width: 100%;
+  margin: var(--rhythm) 0;
 }
 
 .search-form input {
   flex: 1;
 }
 
-/* Image viewer */
+/* ---------------------------------------------------------------------------
+   Component: Issues Grid & Cards
+   --------------------------------------------------------------------------- */
+
+.issues-grid,
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: var(--rhythm);
+  margin: var(--rhythm) 0;
+}
+
+.issue-card {
+  text-align: center;
+}
+
+.issue-card img {
+  width: 100%;
+  height: auto;
+  margin: 0 0 calc(var(--rhythm) * 0.5) 0;
+}
+
+.issue-card h3 {
+  font-size: 1rem;
+  font-weight: 500;
+  margin: 0 0 0.25rem 0;
+}
+
+.issue-card time,
+.issue-card p {
+  font-size: 0.9rem;
+  color: #666;
+  margin: 0;
+}
+
+/* ---------------------------------------------------------------------------
+   Component: Image Viewer (Detail Page)
+   --------------------------------------------------------------------------- */
+
 #panzoom-container {
   max-width: 100%;
   max-height: 80vh;
   overflow: hidden;
-  border: 1px solid var(--border);
+  border: 1px solid var(--pale-honey);
   cursor: grab;
 }
 
@@ -50,55 +428,97 @@
   max-width: 100%;
   height: auto;
   display: block;
+  margin: 0;
+  border: none;
 }
 
 .viewer-controls {
   display: flex;
   gap: 1rem;
-  margin: 1rem 0;
+  margin: var(--rhythm) 0;
   justify-content: center;
   flex-wrap: wrap;
 }
 
-/* Navigation */
+.viewer-controls a {
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--pale-honey);
+  border-radius: 2px;
+  transition: border-color 0.2s ease;
+}
+
+.viewer-controls a:hover {
+  border-color: var(--olive);
+  text-decoration: none;
+}
+
+/* ---------------------------------------------------------------------------
+   Component: Page Navigation (Detail Page)
+   --------------------------------------------------------------------------- */
+
 .page-navigation {
-  margin: 2rem 0;
+  margin: calc(var(--rhythm) * 2) 0 0;
 }
 
 .page-nav,
 .issue-nav {
   display: flex;
   justify-content: space-between;
-  margin: 1rem 0;
+  margin: calc(var(--rhythm) * 0.5) 0;
 }
 
 .nav-btn {
-  padding: 0.5rem 1rem;
-  border: 1px solid var(--border);
-  border-radius: 4px;
+  display: inline-block;
   text-decoration: none;
 }
 
 .nav-btn.disabled {
-  opacity: 0.5;
+  opacity: 0.4;
   cursor: not-allowed;
 }
 
-/* Stats section on home page */
+/* ---------------------------------------------------------------------------
+   Component: Stats (Home Page)
+   --------------------------------------------------------------------------- */
+
 .stats {
   display: flex;
   justify-content: center;
-  gap: 3rem;
-  margin: 3rem 0;
+  gap: calc(var(--rhythm) * 2);
+  margin: calc(var(--rhythm) * 2) 0;
   text-align: center;
 }
 
 .stats strong {
   display: block;
   font-size: 2rem;
+  font-weight: 300;
+  color: var(--olive);
 }
 
-/* Accessibility */
+.stats span {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+/* ---------------------------------------------------------------------------
+   Component: Detail Page Header
+   --------------------------------------------------------------------------- */
+
+.detail-page header {
+  border-bottom: none;
+  padding: 0 0 var(--rhythm) 0;
+}
+
+.detail-page header p {
+  color: #666;
+  margin: 0;
+}
+
+/* ---------------------------------------------------------------------------
+   Accessibility
+   --------------------------------------------------------------------------- */
+
 .visually-hidden {
   position: absolute;
   width: 1px;
