@@ -201,9 +201,10 @@ main {
    --------------------------------------------------------------------------- */
 
 footer {
-  padding: calc(var(--rhythm) * 2) 0;
-  border-top: 1px solid var(--pale-honey);
-  font-size: 0.9rem;
+  max-width: 42.5rem;
+  padding: calc(var(--rhythm) * 1) 0;
+  margin: calc(var(--rhythm) * 1) auto;
+  border-top: 3px solid var(--olive);
   color: #666;
 }
 

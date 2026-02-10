@@ -1,0 +1,5 @@
+| Title | Issue Count | Min Date | Max Date |
+| --- | --- | --- | --- |
+{%- for pub in metadata.publications %}
+| {{ pub.title }} | {{ pub.issueCount }} | {{ pub.minDate }} | {{ pub.maxDate }} |
+{%- endfor %}

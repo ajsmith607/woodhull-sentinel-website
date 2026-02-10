@@ -182,7 +182,20 @@ async function buildMetadata() {
     years[year].totalPages += issue.pageCount;
   }
 
-  // 6. Compute aggregate stats
+  // 6. Aggregate by publication title
+  const pubMap = new Map();
+  for (const issue of sortedIssues) {
+    if (!pubMap.has(issue.newspaper)) {
+      pubMap.set(issue.newspaper, { title: issue.newspaper, issueCount: 0, minDate: issue.date, maxDate: issue.date });
+    }
+    const pub = pubMap.get(issue.newspaper);
+    pub.issueCount++;
+    if (issue.date < pub.minDate) pub.minDate = issue.date;
+    if (issue.date > pub.maxDate) pub.maxDate = issue.date;
+  }
+  const publications = Array.from(pubMap.values()).sort((a, b) => a.minDate.localeCompare(b.minDate));
+
+  // 7. Compute aggregate stats
   const yearKeys = Object.keys(years).sort();
   const dateRange = yearKeys.length > 0
     ? `${yearKeys[0]} - ${yearKeys[yearKeys.length - 1]}`
@@ -194,6 +207,7 @@ async function buildMetadata() {
     totalIssues: sortedIssues.length,
     totalPages: allPages.length,
     dateRange,
+    publications,
     years,
     allPages
   };

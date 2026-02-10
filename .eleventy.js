@@ -103,7 +103,8 @@ module.exports = function(eleventyConfig) {
       output: '_site',
       includes: '_includes'
     },
-    templateFormats: ['njk', 'html'],
-    htmlTemplateEngine: 'njk'
+    templateFormats: ['njk', 'html', 'md'],
+    htmlTemplateEngine: 'njk',
+    markdownTemplateEngine: 'njk'
   };
 };
