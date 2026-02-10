@@ -17,6 +17,11 @@ const MONTHS = [
   'July', 'August', 'September', 'October', 'November', 'December'
 ];
 
+const MONTHS_SHORT = [
+  'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+  'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+];
+
 // ---------------------------------------------------------------------------
 // Filename parsing
 // ---------------------------------------------------------------------------
@@ -193,7 +198,15 @@ async function buildMetadata() {
     if (issue.date < pub.minDate) pub.minDate = issue.date;
     if (issue.date > pub.maxDate) pub.maxDate = issue.date;
   }
-  const publications = Array.from(pubMap.values()).sort((a, b) => a.minDate.localeCompare(b.minDate));
+  function formatDateShort(dateStr) {
+    const [y, m, d] = dateStr.split('-');
+    return `${y} ${MONTHS_SHORT[parseInt(m, 10) - 1]} ${parseInt(d, 10).toString().padStart(2, '0')}`;
+  }
+  for (const pub of pubMap.values()) {
+    pub.minDateDisplay = formatDateShort(pub.minDate);
+    pub.maxDateDisplay = formatDateShort(pub.maxDate);
+  }
+  const publications = Array.from(pubMap.values()).sort((a, b) => b.issueCount - a.issueCount);
 
   // 7. Compute aggregate stats
   const yearKeys = Object.keys(years).sort();

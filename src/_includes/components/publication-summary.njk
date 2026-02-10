@@ -1,5 +1,5 @@
-| Title | Issue Count | Min Date | Max Date |
-| --- | --- | --- | --- |
+| Title | Issues | Date Range |
+| --- | --- | --- |
 {%- for pub in metadata.publications %}
-| {{ pub.title }} | {{ pub.issueCount }} | {{ pub.minDate }} | {{ pub.maxDate }} |
+| {{ pub.title }} | {{ pub.issueCount }} | {% if pub.minDate == pub.maxDate %}{{ pub.minDateDisplay }}{% else %}{{ pub.minDateDisplay }} – {{ pub.maxDateDisplay }}{% endif %} |
 {%- endfor %}

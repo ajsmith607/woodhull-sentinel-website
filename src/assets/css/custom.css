@@ -231,6 +231,7 @@ th {
   text-align: left;
   font-weight: 500;
   padding: calc(var(--rhythm) * 0.5);
+  padding-left: 0;
   border-bottom: 2px solid var(--olive);
 }
 
