@@ -28,7 +28,12 @@
   --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-heading: 'Josefin Sans', var(--font-body);
 
+  --scale: 120%;
   --rhythm: 1.7rem;
+}
+
+html {
+  font-size: var(--scale);
 }
 
 /* ---------------------------------------------------------------------------
@@ -143,13 +148,23 @@ a:hover {
    --------------------------------------------------------------------------- */
 
 .container {
-  max-width: 680px;
+  max-width: 42.5rem;
   margin: 0 auto;
   padding: 0 var(--rhythm);
 }
 
 @media (min-width: 768px) {
   .container {
+    padding: 0 calc(var(--rhythm) * 2);
+  }
+}
+
+.container-wide {
+  padding: 0 var(--rhythm);
+}
+
+@media (min-width: 768px) {
+  .container-wide {
     padding: 0 calc(var(--rhythm) * 2);
   }
 }
@@ -371,7 +386,7 @@ input[type="text"]:focus {
 .issues-grid,
 .results-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(11.25rem, 1fr));
   gap: var(--rhythm);
   margin: var(--rhythm) 0;
 }

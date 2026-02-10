@@ -65,24 +65,50 @@
       statusEl.innerHTML = '<p>Found ' + docs.length +
         ' results for "' + escapeHtml(query) + '".</p>';
 
-      var html = '';
-      for (var d = 0; d < docs.length; d++) {
-        var doc = docs[d];
-        var thumbPath = baseUrl + 'data/THUMBs/' + doc.issueId + '/' + doc.filename + '.jpg';
-        var pageUrl = baseUrl + 'pages/' + doc.filename + '/';
+      var BATCH_SIZE = 24;
+      var offset = 0;
 
-        html += '<article class="issue-card">' +
-          '<a href="' + pageUrl + '">' +
-          '<img src="' + thumbPath + '" alt="' + escapeHtml(doc.newspaper) +
-          ' - ' + escapeHtml(doc.dateDisplay) + '" loading="lazy" width="200">' +
-          '</a>' +
-          '<h3><a href="' + pageUrl + '">' + escapeHtml(doc.newspaper) + '</a></h3>' +
-          '<time>' + escapeHtml(doc.dateDisplay) + '</time>' +
-          '<p>Page ' + doc.pageNumber + '</p>' +
-          '</article>';
+      var sentinel = document.createElement('div');
+      sentinel.setAttribute('aria-hidden', 'true');
+
+      function renderBatch() {
+        var end = Math.min(offset + BATCH_SIZE, docs.length);
+        var html = '';
+        for (var d = offset; d < end; d++) {
+          var doc = docs[d];
+          var thumbPath = baseUrl + 'data/THUMBs/' + doc.issueId + '/' + doc.filename + '.jpg';
+          var pageUrl = baseUrl + 'pages/' + doc.filename + '/';
+
+          html += '<article class="issue-card">' +
+            '<a href="' + pageUrl + '">' +
+            '<img src="' + thumbPath + '" alt="' + escapeHtml(doc.newspaper) +
+            ' - ' + escapeHtml(doc.dateDisplay) + '" loading="lazy" width="200">' +
+            '</a>' +
+            '<h3><a href="' + pageUrl + '">' + escapeHtml(doc.newspaper) + '</a></h3>' +
+            '<time>' + escapeHtml(doc.dateDisplay) + '</time>' +
+            '<p>Page ' + doc.pageNumber + '</p>' +
+            '</article>';
+        }
+        gridEl.insertAdjacentHTML('beforeend', html);
+        offset = end;
+
+        if (offset < docs.length) {
+          gridEl.appendChild(sentinel);
+        } else {
+          observer.disconnect();
+        }
       }
 
-      gridEl.innerHTML = html;
+      var observer = new IntersectionObserver(function(entries) {
+        if (entries[0].isIntersecting) {
+          renderBatch();
+        }
+      });
+
+      renderBatch();
+      if (offset < docs.length) {
+        observer.observe(sentinel);
+      }
     })
     .catch(function(err) {
       statusEl.innerHTML = '<p>Error loading search: ' + escapeHtml(err.message) +

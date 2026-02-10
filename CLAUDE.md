@@ -11,7 +11,6 @@ A lightweight, static JAMStack website for browsing and searching a collection o
 - Fast, responsive interface
 
 **Components used:**
-  - simple.css (classless CSS framework, vendored locally)
   - FlexSearch (client-side full-text search, vendored locally)
   - Panzoom (image pan/zoom viewer, vendored locally)
 
@@ -150,8 +149,7 @@ src/
 │       └── search-form.njk   # Reusable search form
 ├── assets/
 │   ├── css/
-│   │   ├── simple.min.css    # Vendored simple.css
-│   │   └── custom.css        # Minimal overrides (grids, cards, viewer)
+│   │   └── custom.css        # Full stylesheet (typography, layout, components)
 │   └── js/
 │       ├── search.js         # FlexSearch client-side integration
 │       └── viewer.js         # Panzoom initialization
@@ -180,6 +178,28 @@ npm run dev
 - **Search requires HTTP** — `fetch()` for the ~24 MB search index does not work via `file://` protocol. All other pages work via file://.
 - **Search index size** — `search-index.json` is ~24 MB (uses `strict` tokenization — whole-word matching only, no prefix search). Shows a loading indicator while parsing.
 
+## Configuration
+
+Tunable values that control site appearance and behavior.
+
+### CSS (`src/assets/css/custom.css`)
+
+| Variable | Default | Effect |
+|---|---|---|
+| `--scale` | `100%` | Global scaling factor. Set on `html { font-size }`. Proportionally adjusts all font sizes, vertical spacing, and container max-width since they use `rem` units. |
+| `--rhythm` | `1.7rem` | Base vertical spacing unit. All margins, padding, and gaps are derived from this value. |
+
+### Layout (`src/_includes/layouts/base.njk`)
+
+Pages use the `.container` class (max-width `42.5rem`, centered) by default. Add `wide: true` to a page's front matter to use `.container-wide` instead (full viewport width with horizontal padding only). Currently used by `search.njk` and `detail.njk`.
+
+### Search (`src/assets/js/search.js`)
+
+| Constant | Default | Effect |
+|---|---|---|
+| `BATCH_SIZE` | `24` | Number of result cards rendered per infinite-scroll batch. |
+| `limit` (in `index.search()` call) | `200` | Maximum results returned by FlexSearch per query. |
+
 ## DO NOT
 
 - DO NOT edit original jpg image files
@@ -187,7 +207,7 @@ npm run dev
 
 ---
 
-**Document Version:** 3.0
-**Last Updated:** 2026-02-08
+**Document Version:** 3.1
+**Last Updated:** 2026-02-10
 **Architecture:** JAMStack (Eleventy 3.x, Nunjucks)
 **Status:** Site UI implemented
