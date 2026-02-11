@@ -395,7 +395,16 @@ input[type="text"]:focus {
 }
 
 .issue-card {
+  display: block;
+  font-size: 1rem;
   text-align: center;
+  text-decoration: none;
+  color: var(--deep-charcoal);
+  background-color: var(--ivory);
+}
+
+a.issue-card:visited {
+  background-color: var(--pale-honey);
 }
 
 .issue-card img {
@@ -404,7 +413,8 @@ input[type="text"]:focus {
   margin: 0 0 calc(var(--rhythm) * 0.5) 0;
 }
 
-.issue-card h3 {
+.issue-card strong {
+  display: block;
   font-size: 1rem;
   font-weight: 500;
   margin: 0 0 0.25rem 0;
@@ -412,8 +422,6 @@ input[type="text"]:focus {
 
 .issue-card time,
 .issue-card small {
-  font-size: 0.9rem;
-  color: #666;
   margin: 0;
 }
 
@@ -493,6 +501,7 @@ input[type="text"]:focus {
   flex-direction: column;
   align-items: center;
   color: #666;
+  font-weight: bold;
 }
 
 .nav-btn {
