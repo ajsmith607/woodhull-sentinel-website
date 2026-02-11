@@ -3,7 +3,6 @@ layout: layouts/base.njk
 title: About
 ---
 
-
 ## About The Archive
 
 This archive contains {{ metadata.totalPages }} digitized newspaper pages from {{ metadata.totalIssues }} issues, spanning {{ metadata.dateRange }}.
@@ -85,7 +84,7 @@ Note that there are two issues printed with provably wrong publication dates, an
 
 In the following cases, there were duplicate copies of the issue in the collection, and each copy was scanned and is included on this site:
 
-|             |                                            |
+| Date        | Title                                      |
 | ----------- | ------------------------------------------ |
 | 6/4/1931    | Woodhull Sentinel                          |
 | 8/13/1931   | Woodhull Sentinel                          |

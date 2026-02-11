@@ -79,15 +79,12 @@
           var thumbPath = baseUrl + 'data/THUMBs/' + doc.issueId + '/' + doc.filename + '.jpg';
           var pageUrl = baseUrl + 'pages/' + doc.filename + '/';
 
-          html += '<article class="issue-card">' +
-            '<a href="' + pageUrl + '">' +
+          html += '<a href="' + pageUrl + '" class="issue-card">' +
             '<img src="' + thumbPath + '" alt="' + escapeHtml(doc.newspaper) +
             ' - ' + escapeHtml(doc.dateDisplay) + '" loading="lazy" width="200">' +
-            '</a>' +
-            '<h3><a href="' + pageUrl + '">' + escapeHtml(doc.newspaper) + '</a></h3>' +
-            '<time>' + escapeHtml(doc.dateDisplay) + '</time>' +
-            '<p>Page ' + doc.pageNumber + '</p>' +
-            '</article>';
+            '<strong>' + escapeHtml(doc.newspaper) + '</strong>' +
+            '<time>' + escapeHtml(doc.dateDisplay) + '</time>' + ' – ' + 'Page ' + doc.pageNumber +
+            '</a>';
         }
         gridEl.insertAdjacentHTML('beforeend', html);
         offset = end;
