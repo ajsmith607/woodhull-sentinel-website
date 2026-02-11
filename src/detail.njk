@@ -32,29 +32,32 @@ eleventyComputed:
   </div>
 
   <nav class="page-navigation">
-    <div class="page-nav">
+    <div class="nav-prev">
       {% if item.prevPage %}
-        <a href="/pages/{{ item.prevPage }}/" class="nav-btn">&larr; Previous Page</a>
+        <a href="/pages/{{ item.prevPage }}/" class="nav-btn">&larr; Page {{ item.prevPageNumber }}</a>
       {% else %}
         <span class="nav-btn disabled">&larr; Previous Page</span>
       {% endif %}
-
-      {% if item.nextPage %}
-        <a href="/pages/{{ item.nextPage }}/" class="nav-btn">Next Page &rarr;</a>
-      {% else %}
-        <span class="nav-btn disabled">Next Page &rarr;</span>
-      {% endif %}
-    </div>
-
-    <div class="issue-nav">
       {% if item.prevIssue %}
-        <a href="/pages/{{ item.prevIssue }}/" class="nav-btn">&larr; Previous Issue</a>
+        <a href="/pages/{{ item.prevIssue }}/" class="nav-btn">&larr; {{ item.prevIssueDateDisplay }}</a>
       {% else %}
         <span class="nav-btn disabled">&larr; Previous Issue</span>
       {% endif %}
+    </div>
 
+    <div class="nav-center">
+      <span class="nav-current">Page {{ item.pageNumber }}</span>
+      <span class="nav-current">{{ item.dateDisplay }}</span>
+    </div>
+
+    <div class="nav-next">
+      {% if item.nextPage %}
+        <a href="/pages/{{ item.nextPage }}/" class="nav-btn">Page {{ item.nextPageNumber }} &rarr;</a>
+      {% else %}
+        <span class="nav-btn disabled">Next Page &rarr;</span>
+      {% endif %}
       {% if item.nextIssue %}
-        <a href="/pages/{{ item.nextIssue }}/" class="nav-btn">Next Issue &rarr;</a>
+        <a href="/pages/{{ item.nextIssue }}/" class="nav-btn">{{ item.nextIssueDateDisplay }} &rarr;</a>
       {% else %}
         <span class="nav-btn disabled">Next Issue &rarr;</span>
       {% endif %}

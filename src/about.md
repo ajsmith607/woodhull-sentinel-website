@@ -3,6 +3,7 @@ layout: layouts/base.njk
 title: About
 ---
 
+
 ## About The Archive
 
 This archive contains {{ metadata.totalPages }} digitized newspaper pages from {{ metadata.totalIssues }} issues, spanning {{ metadata.dateRange }}.

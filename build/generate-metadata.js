@@ -143,12 +143,8 @@ async function buildMetadata() {
 
   for (let i = 0; i < sortedIssues.length; i++) {
     const issue = sortedIssues[i];
-    const prevIssueFirstPage = i > 0
-      ? sortedIssues[i - 1].pages[0].filename
-      : null;
-    const nextIssueFirstPage = i < sortedIssues.length - 1
-      ? sortedIssues[i + 1].pages[0].filename
-      : null;
+    const prevIssue = i > 0 ? sortedIssues[i - 1] : null;
+    const nextIssue = i < sortedIssues.length - 1 ? sortedIssues[i + 1] : null;
 
     for (let j = 0; j < issue.pages.length; j++) {
       const page = issue.pages[j];
@@ -162,9 +158,13 @@ async function buildMetadata() {
         thumbnail: page.thumbnail,
         jpg: page.jpg,
         prevPage: j > 0 ? issue.pages[j - 1].filename : null,
+        prevPageNumber: j > 0 ? issue.pages[j - 1].pageNumber : null,
         nextPage: j < issue.pages.length - 1 ? issue.pages[j + 1].filename : null,
-        prevIssue: prevIssueFirstPage,
-        nextIssue: nextIssueFirstPage
+        nextPageNumber: j < issue.pages.length - 1 ? issue.pages[j + 1].pageNumber : null,
+        prevIssue: prevIssue ? prevIssue.pages[0].filename : null,
+        prevIssueDateDisplay: prevIssue ? prevIssue.dateDisplay : null,
+        nextIssue: nextIssue ? nextIssue.pages[0].filename : null,
+        nextIssueDateDisplay: nextIssue ? nextIssue.dateDisplay : null
       });
     }
   }
