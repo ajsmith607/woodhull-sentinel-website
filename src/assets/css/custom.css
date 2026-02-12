@@ -205,8 +205,8 @@ footer {
   max-width: 42.5rem;
   padding: calc(var(--rhythm) * 1) 0;
   margin: calc(var(--rhythm) * 1) auto;
-  border-top: 3px solid var(--olive);
-  color: #666;
+  border-top: 1px solid var(--olive);
+  color: var(--olive);
 }
 
 /* ---------------------------------------------------------------------------
@@ -500,7 +500,7 @@ a.issue-card:visited {
   display: flex;
   flex-direction: column;
   align-items: center;
-  color: #666;
+  color: var(--olive);
   font-weight: bold;
 }
 
@@ -521,7 +521,9 @@ a.issue-card:visited {
 .subheader {
   text-align: center;
   margin: 0 0 calc(var(--rhythm) * 0.5) 0;
+  color: var(--olive);
 }
+
 .stats {
   display: flex;
   justify-content: center;
@@ -529,7 +531,6 @@ a.issue-card:visited {
   padding-bottom: calc(var(--rhythm) * 1);
   margin-bottom: calc(var(--rhythm) * 2);
   text-align: center;
-  border-bottom: 1px solid var(--pale-honey);
 }
 
 .stats strong {
@@ -541,7 +542,7 @@ a.issue-card:visited {
 
 .stats span {
   font-size: 1rem;
-  color: #666;
+  color: var(--olive);
 }
 
 /* ---------------------------------------------------------------------------
@@ -554,7 +555,7 @@ a.issue-card:visited {
 }
 
 .detail-page header p {
-  color: #666;
+  color: var(--olive);
   margin: 0;
 }
 

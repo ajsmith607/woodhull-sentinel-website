@@ -39,7 +39,7 @@ Known publishing information:
 - Publisher: Southern Tier News Inc., Addison NY 
 - First Issue: June 5, 1930
 - Last Issue: exact date unknown
-- By August 3, 1939, The Woodhull Sentinel had been subsumed under the Addison Advertiser. That issue is volume 80 ("LXXX"), indicating that the Addison Advertiser began publication in 1860.
+- By August 3, 1939, **The Woodhull Sentinel** had been subsumed under the Addison Advertiser. That issue is volume 80 ("LXXX"), indicating that the Addison Advertiser began publication in 1860.
 
 #### Southern Steuben Republican
 
@@ -53,7 +53,7 @@ Known publishing information:
 Known publishing information:
 - Published: weekly
 - Publisher: In 1933: Joseph Claude Latham, Canisteo NY; In 1959: Southern Tier News, Inc., Canisteo NY
-- Began Publication: 1872 (See 1959 Dec 17, The Canisteo Times, p2, q11.)
+- Began Publication: 1872 (See 1959 Dec 17, **The Canisteo Times**, p2, q11.)
 
 #### The Evening Leader
 
@@ -72,19 +72,19 @@ Two issues were printed with provably wrong publication dates:
 
 There were also duplicate copies of several issues in the collection, and each copy was scanned and included on this site:
 
-| Date        | Title                                      |
-| ----------- | ------------------------------------------ |
-| 6/4/1931    | Woodhull Sentinel                          |
-| 8/13/1931   | Woodhull Sentinel                          |
-| 9/8/1932    | Woodhull Sentinel                          |
-| 7/5/1934    | Woodhull Sentinel                          |
-| 8/16/1934   | Woodhull Sentinel                          |
-| 5/12/1938   | Woodhull Sentinel                          |
-| 5/19/1938   | Woodhull Sentinel                          |
-| 6/2/1938    | Woodhull Sentinel                          |
-| 9/5/1940    | Addison Advertiser And Woodhull Sentinel   |
-| 9/12/1940   | Addison Advertiser And Woodhull Sentinel   |
-| 9/19/1940   | Addison Advertiser And Woodhull Sentinel   |
+| Date        | Title                                          |
+| ----------- | ---------------------------------------------- |
+| 6/4/1931    | **Woodhull Sentinel**                          |
+| 8/13/1931   | **Woodhull Sentinel**                          |
+| 9/8/1932    | **Woodhull Sentinel**                          |
+| 7/5/1934    | **Woodhull Sentinel**                          |
+| 8/16/1934   | **Woodhull Sentinel**                          |
+| 5/12/1938   | **Woodhull Sentinel**                          |
+| 5/19/1938   | **Woodhull Sentinel**                          |
+| 6/2/1938    | **Woodhull Sentinel**                          |
+| 9/5/1940    | **Addison Advertiser And Woodhull Sentinel**   |
+| 9/12/1940   | **Addison Advertiser And Woodhull Sentinel**   |
+| 9/19/1940   | **Addison Advertiser And Woodhull Sentinel**   |
 
 ### Technical Details
 
