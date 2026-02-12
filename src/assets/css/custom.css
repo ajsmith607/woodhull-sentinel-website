@@ -504,6 +504,10 @@ a.issue-card:visited {
   font-weight: bold;
 }
 
+.nav-current {
+  padding: 0.5rem 0.5rem;
+}
+
 .nav-btn {
   display: inline-block;
   text-decoration: none;
