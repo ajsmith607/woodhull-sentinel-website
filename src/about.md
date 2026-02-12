@@ -5,16 +5,24 @@ title: About
 
 ## About The Archive
 
-This archive contains {{ metadata.totalPages }} digitized newspaper pages from {{ metadata.totalIssues }} issues, spanning {{ metadata.dateRange }}.
+This archive contains {{ metadata.totalPages }} digitized newspaper pages from {{ metadata.totalIssues }} issues, spanning {{ metadata.dateRange }}, comprised mostly of **The Woodhull Sentinel**, including its very first issue on June 5, 1930, which promised a "bang-up good paper" to serve the "folks of Woodhull, Jasper and the vicinity".
 
 Each issue features comprehensive original reporting of community happenings, local government, schools, businesses, and civic affairs, complemented by broader coverage of state and federal politics, economic trends, and major world events. Each includes editorials and opinion pieces, as well as articles, reviews and regular columns on a range of topics, including politics, health, education, law and order, business, sports, entertainment and lifestyle. 
 
-The Town of Woodhull New York owns the physical newspapers that were digitized by Backstage Library Works in Bethlehem PA in 2025 and made available for free on this site and through these other services:
+**The Town of Woodhull New York** owns the physical newspapers that were digitized by Backstage Library Works in Bethlehem PA in 2025 and made available for free on this site and through these other services:
 
 - [NYS Historic Newspapers](http://nyshistoricnewspapers.org). (**Free.**)
 - [Fultonhistory.com](http://www.fultonhistory.com). (**Free.**)
 - [Newspapers.com](http://www.newspapers.com). **(Paid subscription required.)**
+- [Internet Archive](https://archive.org/). (**Free.**)
 
+### Our Mission
+
+This website serves as a community-owned access point to our digitized newspaper archive, providing our community free, independent access to their historical record. 
+
+To keep this website financially sustainable with very limited resources, we have focused on core capabilities: search, browse, view, zoom, and download. For most research needs, the larger external services will offer a better experience with superior search tools, enhanced viewing features, and easier navigation, and we encourage their use as the primary access method. 
+
+This website exists as a long-term baseline, controlled by our community and freely available to all. This ensures these historical materials remain accessible regardless of changes in external platforms or business models.
 
 ### Collection Description
 
@@ -38,51 +46,31 @@ Known publishing information:
 Known publishing information:
 - Published: weekly
 - Publisher: R. C. Park, Woodhull NY
-- Began Publication: 1880. 
+- Began Publication: 1880. (Date estimated based on 1895 Dec 19 issue, which is "VOL. XVI.".) 
 
 #### The Canisteo Times
 
 Known publishing information:
 - Published: weekly
 - Publisher: In 1933: Joseph Claude Latham, Canisteo NY; In 1959: Southern Tier News, Inc., Canisteo NY
-- Began Publication: 1872
+- Began Publication: 1872 (See 1959 Dec 17, The Canisteo Times, p2, q11.)
 
 #### The Evening Leader
 
-Corning Leader Historical Timeline:
-- The Corning Journal - established in 1847 as a weekly newspaper
-- The Corning Democrat - established in 1853 (originally as the Corning Sun, then Southern Tier Farmer, then Corning Democrat in 1857)
-- The Evening Leader - the Democrat started a daily newspaper in 1884 and changed its name to The Evening Leader in 1903
-- Merger - The Corning Journal merged with The Evening Leader in 1920
-- Name changes:
-  - Published as "The Evening Leader" from 1903-1953
-  - "Corning Leader" from 1954-1965
-  - "The Leader" from September 24, 1965 to present
-
-Resources:
+- Publication history: [The Leader (Corning) - Wikipedia](https://en.wikipedia.org/wiki/The_Leader_(Corning)). 
 - The Southeast Steuben County Library in Corning has microfilm from 1840 to present.
-- [The Leader (Corning) - Wikipedia](http://en.wikipedia.org) 
-- [The Leader (Corning, N.Y.) 1965-Current | Library of Congress](http://www.loc.gov) 
-- [Corning Leader (Corning, N.Y.) 1954-1965 | Library of Congress](http://chroniclingamerica.loc.gov) 
-- [Newspapers & Periodicals - Southeast Steuben County Library](http://ssclibrary.org) 
-- [Leader - (Corning, New York) Newspaper Archives](http://www.genealogybank.com) 
-- [The Evening Leader (Corning, N.Y.) 1917-1953 | Library of Congress](http://www.loc.gov) 
-- [Corning Leader – Corning History](http://corningnyhistory.com) 
-- [Newspaper Corning Leader (Corning, NY) 1954-1965](http://www.loc.gov) 
-- [The Leader – Corning History](http://corningnyhistory.com) 
-- [The Leader (Corning)](http://wikipedia.nucleos.com) 
 
 
 ### Miscellaneous
 
-Note that there are two issues printed with provably wrong publication dates, and this should be highlighted in the item level metadata:
+Two issues were printed with provably wrong publication dates:
 
 | Printed Date  | Actual Date | Note                                   |
 | ------------- | ----------- | -------------------------------------- |
 | 9/28/1932     | 9/29/1932   | files saved under the printed date     |
 | 10/15/1932    | 10/15/1931  | files saved under the actual date      |
 
-In the following cases, there were duplicate copies of the issue in the collection, and each copy was scanned and is included on this site:
+There were also duplicate copies of several issues in the collection, and each copy was scanned and included on this site:
 
 | Date        | Title                                      |
 | ----------- | ------------------------------------------ |
