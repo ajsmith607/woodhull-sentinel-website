@@ -522,6 +522,7 @@ a.issue-card:visited {
   text-align: center;
   margin: 0 0 calc(var(--rhythm) * 0.5) 0;
   color: var(--olive);
+  font-weight: bold;
 }
 
 .stats {
