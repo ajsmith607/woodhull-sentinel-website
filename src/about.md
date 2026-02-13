@@ -5,7 +5,7 @@ title: About
 
 ## About The Archive
 
-This archive contains {{ metadata.totalPages }} digitized newspaper pages from {{ metadata.totalIssues }} issues, spanning {{ metadata.dateRange }}, comprised mostly of **The Woodhull Sentinel**, including its very first issue on June 5, 1930, which promised a "bang-up good paper" to serve the "folks of Woodhull, Jasper and the vicinity".
+This archive contains {{ metadata.totalPages }} digitized newspaper pages from {{ metadata.totalIssues }} issues, spanning {{ metadata.dateRange }}, comprised mostly of **The Woodhull Sentinel**, including its very first issue on June 5, 1930, which promised a "bang-up good paper" to serve the "folks of Woodhull, Jasper and the vicinity" in southern Steuben County New York..
 
 Each issue features comprehensive original reporting of community happenings, local government, schools, businesses, and civic affairs, complemented by broader coverage of state and federal politics, economic trends, and major world events. Each includes editorials and opinion pieces, as well as articles, reviews and regular columns on a range of topics, including politics, health, education, law and order, business, sports, entertainment and lifestyle. 
 
@@ -26,11 +26,8 @@ This website exists as a long-term baseline, controlled by our community and fre
 
 ### Collection Description
 
-<small>
-
 {% include "components/publication-summary.njk" %}
 
-</small>
 
 #### The Woodhull Sentinel
 
