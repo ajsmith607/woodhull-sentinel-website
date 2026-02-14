@@ -36,7 +36,7 @@ Known publishing information:
 - Publisher: Southern Tier News Inc., Addison NY 
 - First Issue: June 5, 1930
 - Last Issue: exact date unknown
-- By August 3, 1939, **The Woodhull Sentinel** had been subsumed under the Addison Advertiser. That issue is volume 80 ("LXXX"), indicating that the Addison Advertiser began publication in 1860.
+- By August 3, 1939, **The Woodhull Sentinel** had been subsumed under **The Addison Advertiser**. That issue is volume 80 ("LXXX"), indicating that **The Addison Advertiser** began publication in 1860.
 
 #### Southern Steuben Republican
 
@@ -91,7 +91,7 @@ There were also duplicate copies of several issues in the collection, and each c
 - Search powered by [FlexSearch](https://github.com/nextapps-de/flexsearch).
 - Image viewer supports pan and zoom via [Panzoom](https://github.com/timmywil/panzoom).
 - Header font is [Josefin Sans](https://fonts.google.com/specimen/Josefin+Sans).
-- Website code available at [Github](https://github.com/ajsmith607/woodhull-sentinel-website/).
+- Website code available at [Github](https://github.com/ajsmith607/woodhull-sentinel-website/), under an MIT license.
 
 
 

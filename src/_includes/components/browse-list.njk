@@ -4,6 +4,8 @@
   <section>
     <h3>{{ year }}</h3>
     <table>
+      <col style="width: 12em;">
+      <col>
       {% for issue in yearData.issues %}
       <tr>
         <td><time datetime="{{ issue.date }}">{{ issue.dateDisplay }}</time></td>

@@ -1,5 +1,21 @@
-| Title | Issues | Date Range |
-| --- | --- | --- |
-{%- for pub in metadata.publications %}
-| **{{ pub.title }}** | {{ pub.issueCount }} | {% if pub.minDate == pub.maxDate %}{{ pub.minDateDisplay }}{% else %}{{ pub.minDateDisplay }} – <br /> {{ pub.maxDateDisplay }}{% endif %} |
-{%- endfor %}
+<table>
+  <col style="width: 60%;">
+  <col style="width: 15%;">
+  <col>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Issues</th>
+      <th>Date Range</th>
+    </tr>
+  </thead>
+  <tbody>
+  {%- for pub in metadata.publications %}
+    <tr>
+      <td><strong>{{ pub.title }}</strong></td>
+      <td>{{ pub.issueCount }}</td>
+      <td>{% if pub.minDate == pub.maxDate %}{{ pub.minDateDisplay }}{% else %}{{ pub.minDateDisplay }} – <br /> {{ pub.maxDateDisplay }}{% endif %}</td>
+    </tr>
+  {%- endfor %}
+  </tbody>
+</table>

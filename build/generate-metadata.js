@@ -22,6 +22,15 @@ const MONTHS_SHORT = [
   'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
 ];
 
+// Map filename slugs to correct display names (when auto-titlecase isn't enough)
+const NEWSPAPER_DISPLAY_NAMES = {
+  'steuben-republican': 'Southern Steuben Republican',
+  'woodhull-sentinel': 'The Woodhull Sentinel',
+  'addison-advertiser-and-woodhull-sentinel': 'The Addison Advertiser and The Woodhull Sentinel',
+  'evening-leader': 'The Evening Leader',
+  'canisteo-times': 'The Canisteo Times'
+};
+
 // ---------------------------------------------------------------------------
 // Filename parsing
 // ---------------------------------------------------------------------------
@@ -35,11 +44,9 @@ function parseFilename(filename) {
 
   const [, newspaperSlug, dateStr, pageNumStr] = match;
 
-  // "woodhull-sentinel" -> "Woodhull Sentinel"
-  const newspaper = newspaperSlug
-    .split('-')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
+  // Use display name mapping if available, otherwise auto-titlecase
+  const newspaper = NEWSPAPER_DISPLAY_NAMES[newspaperSlug]
+    || newspaperSlug.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
 
   const year = dateStr.slice(0, 4);
   const month = dateStr.slice(4, 6);

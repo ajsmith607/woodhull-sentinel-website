@@ -223,9 +223,9 @@ img {
 
 table {
   width: 100%;
+  table-layout: fixed;
   border-collapse: collapse;
   margin: var(--rhythm) 0;
-  max-width: 110%;
 }
 
 th {
@@ -233,12 +233,14 @@ th {
   padding: calc(var(--rhythm) * 0.5);
   padding-left: 0;
   border-bottom: 2px solid var(--olive);
+  vertical-align: bottom;
 }
 
 td {
   padding: calc(var(--rhythm) * 0.5);
   padding-left: 0;
   border-bottom: 1px solid var(--pale-honey);
+  vertical-align: top;
 }
 
 tr:last-child td {
