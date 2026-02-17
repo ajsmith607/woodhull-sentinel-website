@@ -3,18 +3,24 @@ layout: layouts/base.njk
 title: About
 ---
 
+
 ## About The Archive
 
-This archive contains {{ metadata.totalPages }} digitized newspaper pages from {{ metadata.totalIssues }} issues, spanning {{ metadata.dateRange }}, comprised mostly of **The Woodhull Sentinel**, including its very first issue on June 5, 1930, which promised a "bang-up good paper" to serve the "folks of Woodhull, Jasper and the vicinity" in southern Steuben County New York..
+{% toc "3" %}
 
-Each issue features comprehensive original reporting of community happenings, local government, schools, businesses, and civic affairs, complemented by broader coverage of state and federal politics, economic trends, and major world events. Each includes editorials and opinion pieces, as well as articles, reviews and regular columns on a range of topics, including politics, health, education, law and order, business, sports, entertainment and lifestyle. 
+This archive contains {{ metadata.totalPages }} digitized newspaper pages from {{ metadata.totalIssues }} issues, spanning {{ metadata.dateRange }}, comprised mostly of **The Woodhull Sentinel**, including its very first issue on June 5, 1930, which promised a "bang-up good paper" to serve the "folks of Woodhull, Jasper and the vicinity" in southern Steuben County New York.
 
-**The Town of Woodhull New York** owns the physical newspapers that were digitized by Backstage Library Works in Bethlehem PA in 2025 and made available for free on this site and through these other services:
+These newspapers are now available for free on this site and through these other services:
 
 - [NYS Historic Newspapers](http://nyshistoricnewspapers.org). (**Free.**)
 - [Fultonhistory.com](http://www.fultonhistory.com). (**Free.**)
 - [Newspapers.com](http://www.newspapers.com). **(Paid subscription required.)**
 - [Internet Archive](https://archive.org/). (**Free.**)
+
+Each issue features comprehensive original reporting of community happenings, local government, schools, businesses, and civic affairs, complemented by broader coverage of state and federal politics, economic trends, and major world events. Each includes editorials and opinion pieces, as well as articles, reviews and regular columns on a range of topics, including politics, health, education, law and order, business, sports, entertainment and lifestyle. 
+
+The newspapers were donated to **The Town of Woodhull New York** by Steve and Amy Farrand after they were discovered in the attic of a West Main Street home they owned at the time. Leslie Smith, Woodhull Community Historian collected these newspapers, adding a few dozen more issues previously donated from multiple sources, and oversaw their digitization and preservation by Backstage Library Works in Bethlehem PA in 2025.
+
 
 ### Our Mission
 
@@ -24,7 +30,7 @@ To keep this website financially sustainable with very limited resources, we hav
 
 This website exists as a long-term baseline, controlled by our community and freely available to all. This ensures these historical materials remain accessible regardless of changes in external platforms or business models.
 
-### Collection Description
+### Collection and Publication Summary
 
 {% include "components/publication-summary.njk" %}
 
@@ -36,7 +42,7 @@ Known publishing information:
 - Publisher: Southern Tier News Inc., Addison NY 
 - First Issue: June 5, 1930
 - Last Issue: exact date unknown
-- By August 3, 1939, **The Woodhull Sentinel** had been subsumed under **The Addison Advertiser**. That issue is volume 80 ("LXXX"), indicating that **The Addison Advertiser** began publication in 1860.
+- By August 3, 1939, **The Woodhull Sentinel** had been subsumed under **The Addison Advertiser** to become **The Addison Advertiser and The Woodhull Sentinel**. That issue is volume 80 ("LXXX"), indicating that **The Addison Advertiser** began publication in 1860.
 
 #### Southern Steuben Republican
 
@@ -58,7 +64,7 @@ Known publishing information:
 - The Southeast Steuben County Library in Corning has microfilm from 1840 to present.
 
 
-### Miscellaneous
+### Errata and Duplicates
 
 Two issues were printed with provably wrong publication dates:
 
@@ -93,6 +99,9 @@ There were also duplicate copies of several issues in the collection, and each c
 - Header font is [Josefin Sans](https://fonts.google.com/specimen/Josefin+Sans).
 - Website code available at [Github](https://github.com/ajsmith607/woodhull-sentinel-website/), under an MIT license.
 
+### Contact
+
+Leslie Smith, Town of Woodhull New York Community Historian.
 
 
 

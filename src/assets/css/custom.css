@@ -565,6 +565,39 @@ a.issue-card:visited {
 }
 
 /* ---------------------------------------------------------------------------
+   Component: Table of Contents
+   --------------------------------------------------------------------------- */
+
+.toc {
+  margin: var(--rhythm) 0;
+}
+
+.toc ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+  display: block;
+  flex-direction: unset;
+  gap: unset;
+}
+
+.toc li {
+  margin-bottom: calc(var(--rhythm) * 0.25);
+}
+
+.toc .toc-h4 {
+  padding-left: calc(var(--rhythm));
+}
+
+.toc .toc-h5 {
+  padding-left: calc(var(--rhythm) * 2);
+}
+
+.toc .toc-h6 {
+  padding-left: calc(var(--rhythm) * 3);
+}
+
+/* ---------------------------------------------------------------------------
    Accessibility
    --------------------------------------------------------------------------- */
 

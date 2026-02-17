@@ -1,295 +1,224 @@
-# Styling Plan: Minimal Mid-Century Single Column Layout
+# Domain and Static Hosting Plans
 
-## Project Overview
-Create a minimal, sophisticated single-column website using mid-century modern design principles. Rely on typography, color, and spacing rather than decorative elements.
+## Overall Plan
 
-## Color Palette (Warm Minimalist)
-```css
---ivory: #faf8f3;
---pale-honey: #e8dcc7;
---honey: #c4a574;
---olive: #6b6b47;
---deep-charcoal: #2d2d2d;
+- Cloudflare, one place for:
+  - Domain name registration
+  - content caching
+  - analytics
+- Hostinger commodity hosting (rsync upload)
+- document and hand-off 
+
+## Domains
+
+Primary domain: woodhullsentinel.org
+
+Other domains:
+- thewoodhullsentinel.org
+- woodhullsentinel.com
+- thewoodhullsentinel.com
+
+Optional domains:
+- woodhullsentinel.net
+
+## Implementation Checklist
+
+### Account Setup 
+
+**Domain Registration:**
+- [ ] Client creates Cloudflare account
+- [ ] Register domain name (e.g., clientsite.org)
+- [ ] Add you as Administrator to Cloudflare account
+- [ ] Configure Cloudflare nameservers
+- [ ] Enable WHOIS privacy protection
+- [ ] Set domain to auto-renew
+- [ ] Add renewal reminder to calendar (60 days before)
+
+**Hostinger Setup:**
+- [ ] Client creates Hostinger account
+- [ ] Purchase Premium Shared Hosting (48-month plan for best rate)
+- [ ] Add you as technical contact
+- [ ] Note cPanel login credentials
+- [ ] Create FTP account for file uploads
+- [ ] Install SSL certificate (free via Hostinger)
+
+**Cloudflare Configuration:**
+- [ ] Add domain to Cloudflare
+- [ ] Configure DNS records:
+  - [ ] add A record for static.clientsite.org → Hostinger IP
+- [ ] Enable proxy (orange cloud) for CDN
+- [ ] Configure SSL/TLS settings (Full)
+- [ ] Set up Cloudflare caching rules
+
+**Final Checks:**
+- [ ] Test all pages on mobile and desktop
+- [ ] Verify SSL certificates working
+- [ ] Check site speed (Google PageSpeed Insights)
+- [ ] Submit sitemap to Google Search Console
+- [ ] Test backup export process
+
+---
+
+## Technical Notes
+
+### DNS Configuration Example
+
+```
+# DNS Records at Cloudflare for clientsite.org
+
+# Static site (Hostinger)
+A     static         → [Hostinger IP from cPanel]
+CNAME assets         → static.clientsite.org
+
+# SSL
+TXT   @              → [SSL verification records if needed]
 ```
 
-## Typography
+### Cloudflare Configuration Tips
 
-### Fonts
-- **H1 only**: Josefin Sans, weight 300
-  - Vendored locally at `src/assets/fonts/josefin-sans-300.ttf` (57 KB) for offline/file:// support
-- **Body & all other elements**: System sans-serif stack
-  ```css
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  ```
+**Recommended Settings:**
+- SSL/TLS mode: Full (strict) if possible, Full if needed
+- Always Use HTTPS: On
+- Auto Minify: CSS, JavaScript, HTML
+- Brotli compression: On
+- Caching level: Standard
+- Browser Cache TTL: 4 hours
 
-### Vertical Rhythm
-- **Base font size**: 18px (1.125rem)
-- **Base line height**: 1.7 (30.6px)
-- **Rhythm unit**: 1.7rem (30.6px) - all spacing should be multiples of this
+**Page Rules (if needed):**
+- Cache everything for static subdomain
+- Forward www to non-www (or vice versa)
 
-### Type Scale
-Use a modular scale with ratio of 1.25 (major third):
-- **H1**: 3.052rem (54.9px) - Josefin Sans 300
-- **H2**: 2.441rem (43.9px) - System sans 400
-- **H3**: 1.953rem (35.2px) - System sans 400
-- **H4**: 1.563rem (28.1px) - System sans 500
-- **H5**: 1.25rem (22.5px) - System sans 500
-- **H6**: 1rem (18px) - System sans 600
-- **Body**: 1.125rem (18px) - System sans 400
-- **Small**: 0.9rem (16.2px) - System sans 400
+### Asset Optimization
 
-### Heading Spacing
-- H1: margin-top: 0, margin-bottom: 1.7rem
-- H2: margin-top: 3.4rem, margin-bottom: 1.7rem
-- H3: margin-top: 3.4rem, margin-bottom: 1.7rem
-- H4-H6: margin-top: 1.7rem, margin-bottom: 0.85rem
+**Delegation to Cloudflare:**
+All optimization handled at Cloudflare edge, zero build-time configuration.
 
-## Layout Structure
+**Cloudflare Auto Minify (Enable in Dashboard):**
+- HTML minification: Remove whitespace, comments
+- CSS minification: Remove whitespace, shorten names
+- JavaScript minification: Minify but preserve readability of stack traces
 
-### Container
-- **Max-width**: 680px (optimal for readability at 18px base)
-- **Padding**: 1.7rem on sides (mobile), 3.4rem on sides (tablet+)
-- **Margin**: 0 auto (centered)
+**Cloudflare Compression:**
+- Brotli compression (preferred, ~20% better than gzip)
+- Gzip fallback for older clients
+- Automatic based on Accept-Encoding header
+- documents.json compresses from ~70 MB to ~5-10 MB
 
-### Header
-- **Padding**: 3.4rem 0
-- **Border-bottom**: 1px solid var(--pale-honey)
-- **Background**: var(--ivory)
+**Cloudflare Caching:**
+- Static assets cached at edge globally
+- Configurable TTL via Cache-Control headers
+- Purge cache manually or via API when deploying updates
 
-### Main
-- **Padding**: 5.1rem 0 (3 rhythm units)
-- **Background**: var(--ivory)
+**Cache-Control Headers (Optional):**
+Set via `_headers` file in project root for Cloudflare Pages:
+```
+/data/documents.json
+  Cache-Control: public, max-age=3600
 
-### Footer
-- **Padding**: 3.4rem 0
-- **Border-top**: 1px solid var(--pale-honey)
-- **Background**: var(--ivory)
-- **Font size**: 0.9rem
-- **Color**: slightly muted (use #666 or similar)
+/data/JPEGs/*
+  Cache-Control: public, max-age=31536000, immutable
 
-## CSS Reset
-Use a modern, minimal reset:
-```css
-/* Box sizing */
-*, *::before, *::after {
-  box-sizing: border-box;
-}
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate
 
-/* Remove default margin */
-* {
-  margin: 0;
-}
+/css/*
+  Cache-Control: public, max-age=31536000
 
-/* Body defaults */
-body {
-  line-height: 1.7;
-  -webkit-font-smoothing: antialiased;
-}
-
-/* Media defaults */
-img, picture, video, canvas, svg {
-  display: block;
-  max-width: 100%;
-  height: auto;
-}
-
-/* Form elements */
-input, button, textarea, select {
-  font: inherit;
-}
-
-/* Avoid text overflow */
-p, h1, h2, h3, h4, h5, h6 {
-  overflow-wrap: break-word;
-}
+/js/*
+  Cache-Control: public, max-age=31536000
 ```
 
-## Color Application
+**Images:**
+- Serve JPEGs as-is (assume already optimized)
+- Lazy load with `loading="lazy"` attribute or Intersection Observer
+- Cloudflare can apply Polish (image optimization) if enabled
+- Progressive JPEG encoding recommended for better perceived performance
 
-### Background & Text
-- **Body background**: var(--ivory)
-- **Body text**: var(--deep-charcoal)
-- **Headings**: var(--deep-charcoal)
+### Hostinger Server Details
 
-### Links
-- **Default**: var(--olive)
-- **Hover**: var(--deep-charcoal)
-- **Text decoration**: none (default), underline (hover)
-- **Transition**: all 0.2s ease
+After Hostinger setup, note:
+- Server name: [e.g., srv123.hostinger.com]
+- Server IP: [from cPanel]
+- FTP hostname: [from cPanel]
+- Database host (if needed): [from cPanel]
 
-### Accents
-- Use var(--olive) for interactive elements
-- Use var(--honey) sparingly for special emphasis
-- Use var(--pale-honey) for subtle borders/dividers
+### Account Documentation Template
 
-## Responsive Images
-```css
-img {
-  display: block;
-  max-width: 100%;
-  height: auto;
-  margin: 1.7rem 0;
-}
+Create a shared document (Google Doc, in Dropbox, or in password manager notes) with this information:
 
-/* Optional: Add subtle border for definition */
-img {
-  border: 1px solid var(--pale-honey);
-}
+```markdown
+# Website Services Access Information
+
+**Last Updated:** [Date]
+**Primary Owner:** [Client Name]
+**Technical Contact:** [Technical Contact Name]
+
+## Hostinger
+- **Account Email:** client@example.org
+- **Control Panel URL:** https://hpanel.hostinger.com
+- **Plan:** Premium Shared Hosting
+- **Renewal Date:** [Date]
+- **Server:** [Server name/IP]
+- **Support Contact:** support@hostinger.com
+- **FTP Details:** [Stored in password manager]
+
+## Domain Name
+- **Domain:** clientsite.com
+- **Registrar:** Cloudflare Registrar
+- **Account Email:** client@example.org
+- **Renewal Date:** [Date]
+- **Nameservers:** [Cloudflare nameservers]
+- **Support Contact:** https://dash.cloudflare.com/
+
+## Cloudflare (CDN/Security)
+- **Account Email:** client@example.org
+- **Website:** clientsite.com
+- **Plan:** Free
+- **Dashboard:** https://dash.cloudflare.com/
+
+## Emergency Contacts
+- **Technical Support:** [name] - name@email.com - [Phone]
+- **Backup Technical Contact:** [Name] - [Email] - [Phone]
+- **Hostinger Support:** 24/7 live chat
+- **Domain Transfer Auth Code:** [Stored securely in password manager]
+
+## Important Notes
+- All services set to auto-renew
+- Backup credentials stored in [Password Manager Name]
+
 ```
 
-## Table Styling
-Clean, minimal approach:
-```css
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 1.7rem 0;
-  font-size: 0.95rem;
-}
+**Other Possible Documentation to Provide Client:**
+- Simple "Quick Reference" guide for common tasks
+- Contact sheet with all support numbers/emails
 
-th {
-  text-align: left;
-  font-weight: 500;
-  color: var(--deep-charcoal);
-  padding: 0.85rem;
-  border-bottom: 2px solid var(--olive);
-}
+### Technical Support Transition Planning 
 
-td {
-  padding: 0.85rem;
-  border-bottom: 1px solid var(--pale-honey);
-}
+Create a technical handoff document that includes:
 
-tr:last-child td {
-  border-bottom: none;
-}
+1. **Service Overview:**
+   - What each service does
+   - How they connect together
+   - Monthly costs
 
-/* Optional: Subtle hover for data rows */
-tbody tr:hover {
-  background: rgba(232, 220, 199, 0.3); /* pale-honey with transparency */
-}
-```
+2. **Access Information:**
+   - Where credentials are stored
+   - How to request access from client
+   - Login URLs for each service
 
-## Additional Elements
+3. **Recurring Tasks:**
+   - Backup procedures (from Backup Strategy section)
+   - What to monitor
+   - Common troubleshooting
 
-### Blockquotes
-```css
-blockquote {
-  margin: 1.7rem 0;
-  padding-left: 1.7rem;
-  border-left: 3px solid var(--olive);
-  font-style: italic;
-  color: #555;
-}
-```
+4. **Annual Renewals:**
+   - Renewal calendar
+   - How to verify auto-renewal is enabled
+   - What to do if payment fails
 
-### Horizontal Rules
-```css
-hr {
-  border: none;
-  border-top: 1px solid var(--pale-honey);
-  margin: 3.4rem 0;
-}
-```
+5. **Emergency Procedures:**
+   - Site down? Check Cloudflare status, then Hostinger
+   - Email not working? Check domain DNS settings
+   - Can't access service? Contact support with account email
 
-### Lists
-```css
-ul, ol {
-  margin: 1.7rem 0;
-  padding-left: 1.7rem;
-}
 
-li {
-  margin-bottom: 0.85rem;
-}
-
-li:last-child {
-  margin-bottom: 0;
-}
-```
-
-### Code
-```css
-code {
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 0.9em;
-  background: var(--pale-honey);
-  padding: 0.2em 0.4em;
-  border-radius: 2px;
-}
-
-pre {
-  background: var(--pale-honey);
-  padding: 1.7rem;
-  margin: 1.7rem 0;
-  overflow-x: auto;
-  border-radius: 2px;
-}
-
-pre code {
-  background: none;
-  padding: 0;
-}
-```
-
-## Focus States (Accessibility)
-```css
-a:focus,
-button:focus,
-input:focus,
-textarea:focus {
-  outline: 2px solid var(--olive);
-  outline-offset: 2px;
-}
-```
-
-## Responsive Breakpoints
-
-### Mobile (default)
-- Container padding: 1.7rem
-- Font size: 18px (base)
-
-### Tablet (min-width: 768px)
-- Container padding: 3.4rem
-- Slightly increase spacing if needed
-
-### Desktop (min-width: 1024px)
-- Maintain max-width: 680px
-- All else remains consistent (single column)
-
-## Key Principles
-1. **Restraint**: Let typography and spacing do the work
-2. **Vertical rhythm**: All spacing in multiples of 1.7rem
-3. **Minimal decoration**: No borders except where functionally necessary
-4. **Color purpose**: Use color sparingly and intentionally
-5. **Readability first**: Generous line-height and optimal measure
-
-## Implementation Notes
-- Start with the CSS reset
-- Set up CSS custom properties for colors
-- Import Josefin Sans for H1 only
-- Apply vertical rhythm consistently
-- Test responsive behavior, especially images
-- Ensure all interactive elements have clear hover/focus states
-- Verify sufficient color contrast for accessibility (all combinations should pass WCAG AA)
-
-## Implementation Outcome
-
-**Completed 2026-02-08** on branch `feature/mid-century-styling`.
-
-### Changes Made
-- **Removed** `simple.css` (classless CSS framework) — replaced entirely by `custom.css`
-- **Replaced** `src/assets/css/custom.css` with a single self-contained stylesheet covering: CSS reset, color palette, modular type scale, vertical rhythm, layout, and all component styles
-- **Added** `src/assets/fonts/josefin-sans-300.ttf` — vendored locally (not Google Fonts CDN) to preserve offline/file:// support
-- **Updated** `src/_includes/layouts/base.njk` — removed simple.css `<link>`, wrapped body content in `.container` div for 680px max-width centering
-
-### Design Decisions During Implementation
-- **Font hosting**: Vendored TTF locally rather than Google Fonts CDN, preserving the project's offline capability
-- **Existing component styles**: Preserved and adapted all page-specific styles (thumbnail grids, search results, Panzoom viewer, card layouts, navigation) to match the new palette and spacing system
-- **Thumbnail grid**: Kept within the 680px container width using `auto-fill` with 180px minimum column width
-
-## Optional Enhancements (if needed later)
-- Image captions: smaller text in var(--honey)
-- Pull quotes: larger text with olive accent
-- Subtle fade-in animations on scroll
-- Dark mode variant (swap ivory/charcoal)

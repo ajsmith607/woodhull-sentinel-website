@@ -1,6 +1,14 @@
 const path = require('path');
 const fs = require('fs');
 
+function slugify(text) {
+  return text
+    .toLowerCase()
+    .replace(/[^\w\s-]/g, '')
+    .replace(/[\s_]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
 module.exports = function(eleventyConfig) {
 
   // ---------------------------------------------------------------------------
@@ -47,6 +55,70 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addFilter('rootRelative', function(urlPath) {
     if (!urlPath) return urlPath;
     return urlPath.startsWith('/') ? urlPath : '/' + urlPath;
+  });
+
+  // ---------------------------------------------------------------------------
+  // Markdown: add id attributes to headings
+  // ---------------------------------------------------------------------------
+
+  eleventyConfig.amendLibrary('md', (mdLib) => {
+    const defaultRender = mdLib.renderer.rules.heading_open ||
+      function(tokens, idx, options, env, self) {
+        return self.renderToken(tokens, idx, options);
+      };
+
+    mdLib.renderer.rules.heading_open = function(tokens, idx, options, env, self) {
+      const token = tokens[idx];
+      const level = parseInt(token.tag.slice(1), 10);
+      if (level >= 2 && level <= 6) {
+        // Get the text content from the next inline token
+        const contentToken = tokens[idx + 1];
+        if (contentToken && contentToken.type === 'inline') {
+          const text = contentToken.children
+            .filter(t => t.type === 'text' || t.type === 'code_inline')
+            .map(t => t.content)
+            .join('');
+          token.attrSet('id', slugify(text));
+        }
+      }
+      return defaultRender(tokens, idx, options, env, self);
+    };
+  });
+
+  // ---------------------------------------------------------------------------
+  // Shortcode: table of contents
+  // ---------------------------------------------------------------------------
+
+  eleventyConfig.addAsyncShortcode('toc', async function(levels) {
+    const allowedLevels = (levels || '2,3').split(',').map(n => parseInt(n.trim(), 10));
+    const inputPath = this.page.inputPath;
+    const source = fs.readFileSync(inputPath, 'utf-8');
+    const headerRegex = /^(#{2,6})\s+(.+)$/gm;
+    const items = [];
+    let match;
+
+    while ((match = headerRegex.exec(source)) !== null) {
+      const level = match[1].length;
+      if (!allowedLevels.includes(level)) continue;
+      // Strip inline markdown: bold, italic, links, code
+      const text = match[2]
+        .replace(/\*\*(.+?)\*\*/g, '$1')
+        .replace(/__(.+?)__/g, '$1')
+        .replace(/\*(.+?)\*/g, '$1')
+        .replace(/_(.+?)_/g, '$1')
+        .replace(/`(.+?)`/g, '$1')
+        .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+        .trim();
+      items.push({ level, text, id: slugify(text) });
+    }
+
+    if (items.length === 0) return '';
+
+    const lis = items.map(item =>
+      `  <li class="toc-h${item.level}"><a href="#${item.id}">${item.text}</a></li>`
+    ).join('\n');
+
+    return `<nav class="toc">\n<ul>\n${lis}\n</ul>\n</nav>`;
   });
 
   // ---------------------------------------------------------------------------
