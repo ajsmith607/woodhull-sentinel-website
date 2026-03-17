@@ -77,7 +77,7 @@
         for (var d = offset; d < end; d++) {
           var doc = docs[d];
           var thumbPath = baseUrl + 'data/THUMBs/' + doc.issueId + '/' + doc.filename + '.jpg';
-          var pageUrl = baseUrl + 'pages/' + doc.filename + '/';
+          var pageUrl = baseUrl + 'pages/' + doc.filename + '/?q=' + encodeURIComponent(query);
 
           html += '<a href="' + pageUrl + '" class="issue-card">' +
             '<img src="' + thumbPath + '" alt="' + escapeHtml(doc.newspaper) +

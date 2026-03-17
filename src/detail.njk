@@ -18,9 +18,12 @@ eleventyComputed:
 
   <div class="image-viewer">
     <div id="panzoom-container">
-      <img id="newspaper-image"
-           src="{{ item.jpg | rootRelative }}"
-           alt="{{ item.newspaper }} - {{ item.dateDisplay }} - Page {{ item.pageNumber }}">
+      <div id="panzoom-element" data-page-id="{{ item.filename }}" data-issue-id="{{ item.issueId }}">
+        <img id="newspaper-image"
+             src="{{ item.jpg | rootRelative }}"
+             alt="{{ item.newspaper }} - {{ item.dateDisplay }} - Page {{ item.pageNumber }}">
+        <svg id="highlight-overlay" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"></svg>
+      </div>
     </div>
 
     <div class="viewer-controls">

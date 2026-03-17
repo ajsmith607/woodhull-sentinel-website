@@ -4,6 +4,8 @@
   "private": true,
   "description": "Woodhull Sentinel historical newspaper archive",
   "scripts": {
+    "build:text": "node build/extract-alto-text.js",
+    "build:coords": "node build/generate-word-coords.js",
     "build:metadata": "node build/generate-metadata.js",
     "build:search": "node build/generate-search-index.js",
     "build:site": "npx @11ty/eleventy",
