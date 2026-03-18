@@ -26,7 +26,7 @@ The newspapers were donated to **The Town of Woodhull New York** by Steve and Am
 
 This website serves as a community-owned access point to our digitized newspaper archive, providing our community free, independent access to their historical record. 
 
-To keep this website financially sustainable with very limited resources, we have focused on core capabilities: search, browse, view, zoom, and download. For most research needs, the larger external services will offer a better experience with superior search tools, enhanced viewing features, and easier navigation, and we encourage their use as the primary access method. 
+To keep this website financially sustainable with very limited resources, we have focused on core capabilities: search, browse, view, zoom, and download. For most research needs, services like [NYS Historic Newspapers](http://nyshistoricnewspapers.org) (**free**) and [Newspapers.com](http://www.newspapers.com) **(paid subscription required)** will offer a better overall experience with superior search tools, enhanced viewing features, and easier navigation, and we encourage their use as the primary access method. 
 
 This website exists as a long-term baseline, controlled by our community and freely available to all. This ensures these historical materials remain accessible regardless of changes in external platforms or business models.
 
@@ -35,13 +35,13 @@ This website exists as a long-term baseline, controlled by our community and fre
 {% include "components/publication-summary.njk" %}
 
 
-#### The Woodhull Sentinel
+#### The Woodhull Sentinel / The Addison Advertiser and The Woodhull Sentinel
 
 Known publishing information:
 - Published: weekly
 - Publisher: Southern Tier News Inc., Addison NY 
 - First Issue: June 5, 1930
-- Last Issue: exact date unknown
+- Last Issue of **The Woodhull Sentinel**: exact date unknown 
 - By August 3, 1939, **The Woodhull Sentinel** had been subsumed under **The Addison Advertiser** to become **The Addison Advertiser and The Woodhull Sentinel**. That issue is volume 80 ("LXXX"), indicating that **The Addison Advertiser** began publication in 1860.
 
 #### Southern Steuben Republican
